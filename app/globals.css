@@ -19,3 +19,15 @@ fieldset{border:0;padding:0;margin:0;min-width:0}.card-meta{font-size:8px}.draft
 @media(max-width:850px){.toc-desktop{display:none}.toc-mobile{display:block}.toc-mobile>button{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;padding:0;background:none}.toc{max-height:none;overflow:visible}.toc nav{max-height:260px;overflow:auto}}
 @media(max-width:600px){.pillar-grid{grid-template-columns:1fr}.pillar-grid h3{font-size:24px}.article-dates{justify-content:flex-start;font-size:9px}.evidence-snapshot{padding:20px}.evidence-snapshot dl>div{grid-template-columns:1fr;gap:6px}.evidence-snapshot dd{font-size:12px}.review-framework summary{font-size:18px}}
 .prose ul{list-style:disc}.prose ol{list-style:decimal}
+
+
+/* Red light therapy imagery: shared editorial pair for homepage and article cards */
+.featured-image-pair{position:absolute;inset:58px 16px 48px;display:grid;grid-template-columns:1fr 1fr;gap:10px;min-height:0}
+.featured-image-frame{position:relative;min-width:0;overflow:hidden;border:1px solid #ded5c8;border-radius:8px;background:#eee7dc}
+.featured-treatment-image{object-fit:cover;object-position:center}
+.featured-diagram-image{object-fit:contain}
+.card-image-pair{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#f2eee7}
+.card-image-frame{position:relative;min-width:0;overflow:hidden;background:#eee7dc}
+.card-treatment-image{object-fit:cover;object-position:center}
+.card-diagram-image{object-fit:contain}
+@media(max-width:700px){.featured-image-pair{inset:54px 12px 46px;gap:7px}.featured-image-frame{border-radius:6px}}
