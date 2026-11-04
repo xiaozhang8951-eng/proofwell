@@ -31,3 +31,12 @@ fieldset{border:0;padding:0;margin:0;min-width:0}.card-meta{font-size:8px}.draft
 .card-treatment-image{object-fit:cover;object-position:center}
 .card-diagram-image{object-fit:contain}
 @media(max-width:700px){.featured-image-pair{inset:54px 12px 46px;gap:7px}.featured-image-frame{border-radius:6px}}
+
+
+/* ProofWell brand hero: whole-person evidence-led wellness visual */
+.hero-visual{gap:12px;min-width:0;padding-top:0}
+.hero-image-frame{position:relative;width:100%;aspect-ratio:1.6;overflow:hidden;background:#f5eee6;border:1px solid var(--line);border-radius:3px}
+.hero-brand-image{object-fit:cover;object-position:center}
+.hero-image-caption{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:8px;letter-spacing:1.1px}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding-top:44px}.hero-visual{max-width:760px;width:100%;margin:0 auto}.hero-image-frame{aspect-ratio:1.6}}
+@media(max-width:520px){.hero-image-frame{aspect-ratio:1.25}.hero-image-caption{font-size:7px;letter-spacing:.7px}}
