@@ -1,0 +1,32 @@
+.imagePair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 55px;
+}
+
+.imageFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid #ded5c8;
+  border-radius: 12px;
+  background: #eee7dc;
+}
+
+.treatment {
+  object-fit: cover;
+  object-position: center;
+}
+
+.diagram {
+  object-fit: contain;
+}
+
+@media (max-width: 600px) {
+  .imagePair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+}
