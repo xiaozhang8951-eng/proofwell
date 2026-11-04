@@ -1,0 +1,19 @@
+import { chromium } from '@playwright/test';
+import fs from 'node:fs';
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH || (fs.existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined),headless:true,args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});
+const failures=[];page.on('pageerror',e=>failures.push(e.message));
+await page.goto('http://localhost:3000',{waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);
+fs.mkdirSync(new URL('../screenshots/', import.meta.url),{recursive:true});
+await page.screenshot({path:'screenshots/home-desktop.png',fullPage:true});
+let links=await page.locator('a[href^="/"]').evaluateAll(es=>[...new Set(es.map(e=>e.getAttribute('href')))]);
+links=[...new Set([...links,...['/topics/red-light-therapy','/topics/led-masks','/topics/beauty-devices','/topics/skincare-science','/sleep','/recovery','/nutrition','/wellness-technology','/robots.txt','/sitemap.xml']])];
+for(const url of links){const response=await page.request.get('http://localhost:3000'+url);if(response.status()!==200)failures.push(`${url}: ${response.status()}`)}
+await page.getByRole('button',{name:'Search ProofWell'}).click();await page.getByRole('textbox',{name:'Search articles'}).fill('irradiance');await page.getByRole('dialog').getByRole('link',{name:/Irradiance vs Fluence/}).click();await page.waitForURL('**/science/irradiance-vs-fluence');
+if(!await page.getByText('Fluence = Irradiance × Time',{exact:true}).isVisible())failures.push('Formula missing');
+await page.goto('http://localhost:3000',{waitUntil:'networkidle'});await page.getByLabel('A little more evidence in your inbox.').fill('reader@example.com');await page.getByRole('button',{name:'Subscribe',exact:true}).click();if(!await page.getByRole('status').filter({hasText:'not been saved'}).isVisible())failures.push('Newsletter state missing');
+for(const width of [390,768,1024,1440]){await page.setViewportSize({width,height:900});await page.goto('http://localhost:3000',{waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:window.innerWidth}));if(overflow.scroll>width)failures.push(`Homepage overflow ${JSON.stringify(overflow)}`);if(width===390){await page.screenshot({path:'screenshots/home-mobile.png',fullPage:true});await page.getByRole('button',{name:'Open navigation'}).click();await page.getByRole('navigation',{name:'Mobile navigation'}).getByRole('link',{name:'Reviews',exact:true}).click();await page.waitForURL('**/reviews')}}
+await page.setViewportSize({width:390,height:844});await page.goto('http://localhost:3000/comparisons/omnilux-vs-solawave-vs-shark',{waitUntil:'networkidle'});await page.screenshot({path:'screenshots/comparison-mobile.png',fullPage:true});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))failures.push('Comparison mobile overflow');
+await page.goto('http://localhost:3000/contact',{waitUntil:'networkidle'});await page.getByLabel('Name',{exact:true}).fill('Draft Reader');await page.getByLabel('Email',{exact:true}).fill('reader@example.com');await page.getByLabel('Subject',{exact:true}).fill('Editorial question');await page.getByLabel('Message',{exact:true}).fill('Preview form validation.');await page.getByRole('button',{name:'Preview message'}).click();await page.getByRole('status').waitFor();if(!await page.getByRole('status').isVisible())failures.push('Contact feedback missing');
+const notfound=await page.request.get('http://localhost:3000/does-not-exist');if(notfound.status()!==404)failures.push('404 route not working');
+await browser.close();console.log(JSON.stringify({checkedHomepageLinks:links.length,viewports:[390,768,1024,1440],failures},null,2));if(failures.length)process.exitCode=1;
