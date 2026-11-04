@@ -50,9 +50,35 @@ author: "ProofWell Editorial"
 
 Write article text below the frontmatter. `##` headings automatically form the table of contents. Routes and related articles are generated from metadata. Reading time is calculated from content. Every file must have a unique `section` + `slug` pair. Available evidence components are in `components/evidence.tsx` and can be used directly inside MDX, without imports. `EvidenceLevel` accepts the five requested labels but is never assigned automatically.
 
+### Editorial metadata and article structure
+
+The four long-term pillars are **Skin Science & Beauty**, **Nutrition & Supplements**, **Healthy Aging**, and **Wellness Technology**, configured once in `lib/site.ts`. Their existing routes are preserved. LED light therapy remains series 01; no additional article placeholders are needed to activate the broader positioning.
+
+All new article fields are optional. Existing MDX files still work. The red-light pillar article demonstrates an introduction, key takeaways, evidence snapshot, existing background/mechanism and human-evidence sections, technical table, safety, consumer guidance, FAQ, and references. Its content is still explicitly unverified; no findings have been invented.
+
+| Frontmatter field | Purpose |
+| --- | --- |
+| `author` | Existing author or editorial organization name; never infer credentials. |
+| `authorInfo` | Optional `kind` (`person` or `organization`), `bio`, and verified `credentials`. |
+| `published`, `updated` | Actual ISO calendar dates (`YYYY-MM-DD`); invalid or absent dates are not displayed or included in Article JSON-LD. |
+| `scientificReview` | `status`, optional `reviewer` (`name`, `credentials`, `bio`), and `reviewedOn`. Display requires `status: completed`, a nonblank name, and a valid date. Only enter completed after a real review has occurred. Omit the field or use `status: pending` otherwise. |
+| `introduction` | Optional introductory paragraph. |
+| `keyTakeaways` | A list of sourced takeaways, or clearly worded notes about incomplete verification. |
+| `evidenceSnapshot` | `researchTopic`, `verified`, optional `status`, `mainFindings`, and `limitations`. With `verified: false`, findings and status remain verification placeholders. |
+| `evidenceAssessment` | Optional `verified`, `level`, `summary`, and `limitations`. A grade displays only with explicit verification, a supported level, a nonempty summary, and limitations. No existing article has a grade. |
+| `limitations` | Optional article-level uncertainty notes. |
+| `faq` | List of `question` and `answer` pairs, rendered at an MDX `<FAQ />` location. |
+| `references` | List of actual source records: `title`, `authors` (list), `journal`, `year`, `doi`, `pubmedUrl`, or `url`. Legacy `citation` text is also supported. |
+
+Use `<Citation number={1} />` in MDX only after supplying the corresponding real record in `references`. It links to `reference-1` in `<ReferenceList />`, which reads article references automatically. Missing citations display `[Verified reference required]` rather than linking to a nonexistent source. Plain-string MDX reference lists still work. DOI syntax is checked and links use `https://doi.org/`; syntax validation is not scientific verification. Never enter illustrative DOI numbers or pretend references. Only actual PubMed-hosted URLs are labeled PubMed.
+
+`EvidenceSnapshot`, `Limitations`, and `EvidenceSeparation` can also be used directly in MDX. Keep established findings, emerging evidence, uncertain findings, proposed mechanisms, and manufacturer claims distinct. A reviewer badge does not substitute for a documented reference list or uncertainty assessment.
+
+Desktop article contents remain sticky; on mobile/tablet, the “In this article” button expands the anchor list. Related articles remain at the end. All features are built into the static export.
+
 ### Reviews and comparisons
 
-For a product review use `category: "Reviews"`, `section: "reviews"`, and `kind: "review"`; copy the framework in `lib/templates.ts`. Use `visual: "mask-0"` through `mask-3` for conceptual illustrations. For a comparison use `category: "Comparisons"`, `section: "comparisons"`, and `kind: "comparison"`. `SpecificationTable` takes `rows` and `ComparisonTable` takes `headers` and `rows`; both have accessible, horizontally scrollable containers for small screens. Do not fill them with guessed data.
+For a product review use `category: "Reviews"`, `section: "reviews"`, and `kind: "review"`; follow the framework in `lib/templates.ts`. Existing reviews retain all of their detailed sections; an expandable nine-part evaluation framework links specifications, ingredients/technology, scientific evidence, safety, usability, price/value, advantages/limitations, intended users, and verdict to the relevant sections. Use `visual: "mask-0"` through `mask-3` for conceptual illustrations. For a comparison use `category: "Comparisons"`, `section: "comparisons"`, and `kind: "comparison"`. `SpecificationTable` takes `rows` and `ComparisonTable` takes `headers` and `rows`; both have accessible, horizontally scrollable containers for small screens. Do not fill them with guessed data.
 
 ### Supplements and future categories
 
@@ -66,11 +92,11 @@ Edit `navigation` in `lib/site.ts` for desktop and mobile navigation. Search aut
 
 ## Forms
 
-Newsletter and contact forms are frontend previews. They validate input, explain that no submission has been sent or stored, and make no external requests. Connect a provider before opening subscriptions or contact delivery. Update the privacy notice to match the actual service and handling of personal information.
+Newsletter and contact forms are frontend previews. They visibly state their inactive status before any interaction, validate input, explain that no submission has been sent, received, or saved, and make no external requests. The newsletter button says “Preview only”, and neither form shows a success indicator. Connect a provider before opening subscriptions or contact delivery. Update the privacy notice to match the actual service and handling of personal information.
 
 ## Affiliate links
 
-No active affiliate relationships or links are included. Future links can be placed inside a review's Alternatives or Price and Value section using a clear editorial label such as “View product details” or “Check current price”. Use `rel="sponsored nofollow noopener"` on commercial external links. Keep the disclosure near the beginning. Do not change verdicts to suit commercial relationships. ProductSchema and ReviewSchema helpers in `components/seo.tsx` are intentionally unused until actual verified review content is ready; no ratings are emitted.
+No active affiliate relationships or links are included. The reusable `CommercialLink` MDX component accepts an actual owner-approved `href` and link text; it renders a disclosure immediately beside the link and applies `rel="sponsored nofollow noopener"`. With no valid HTTP(S) destination it renders nothing. `AffiliateDisclosure` also accepts `compact` for manual placement near commercial links. Future links can be placed inside a review's Alternatives or Price and Value section using a clear editorial label such as “View product details” or “Check current price”. Use `rel="sponsored nofollow noopener"` on commercial external links. Keep the disclosure near the beginning. Do not change verdicts to suit commercial relationships. ProductSchema and ReviewSchema helpers in `components/seo.tsx` are intentionally unused until actual verified review content is ready; no ratings are emitted.
 
 ## Before public launch
 
@@ -116,3 +142,5 @@ No Cloudflare/Vercel deployment or domain purchase has been performed. The gener
 ## Browser verification
 
 Run `npm run build`, then `npm start`. In another terminal run `node scripts/check-site.mjs`; it uses http://localhost:4173 by default. Set `BASE_URL` to check a different local static preview. It uses `/usr/bin/chromium` when available; otherwise install a Playwright browser with `npx playwright install chromium`. Set `CHROMIUM_EXECUTABLE_PATH` to use another installed browser. It checks internal routes, direct article visits and refreshes, search, mobile navigation, form feedback, 404 behavior, static resource loading, noindex metadata, and horizontal overflow at four viewport widths. Screenshots are saved in the ignored `screenshots/` folder.
+
+Editorial metadata guard checks can be run with `node scripts/check-editorial.mjs` on Node 24. They test review/date/evidence gating and missing/unsafe source handling without adding published sample sources or credentials.

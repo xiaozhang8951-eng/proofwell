@@ -67,23 +67,31 @@ try {
     const response = await page.goto(baseUrl + article.url, { waitUntil: 'networkidle' });
     if (response.status() !== 200) failures.push(`${article.url}: direct visit failed`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(article.title);
+    await expect(page.getByRole('complementary', { name: 'Evidence Snapshot', exact: true })).toBeVisible();
+    if (await page.getByText('Scientifically reviewed by', { exact: false }).count()) failures.push(`${article.url}: unearned reviewer attribution`);
+    if (await page.locator('.evidence-level').count()) failures.push(`${article.url}: unverified evidence grade`);
     const reloaded = await page.reload({ waitUntil: 'networkidle' });
     if (reloaded.status() !== 200) failures.push(`${article.url}: refresh failed`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(article.title);
   }
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
+  for (const name of ['Skin Science & Beauty', 'Nutrition & Supplements', 'Healthy Aging', 'Wellness Technology']) await expect(page.locator('.focus-section').getByRole('link').filter({ hasText: name })).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   fs.mkdirSync(new URL('../screenshots/', import.meta.url), { recursive: true });
   await page.screenshot({ path: 'screenshots/home-desktop.png', fullPage: true });
+  await page.locator('.focus-section').screenshot({ path: 'screenshots/pillars-desktop.png' });
   await page.getByRole('button', { name: 'Search ProofWell' }).click();
   await page.getByRole('textbox', { name: 'Search articles' }).fill('irradiance');
   await page.getByRole('dialog').getByRole('link', { name: /Irradiance vs Fluence/ }).click();
   await page.waitForURL('**/science/irradiance-vs-fluence');
   await expect(page.getByText('Fluence = Irradiance × Time', { exact: true })).toBeVisible();
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  await page.getByLabel('A little more evidence in your inbox.').fill('reader@example.com');
-  await page.getByRole('button', { name: 'Subscribe', exact: true }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'not been saved' })).toBeVisible();
+  await page.getByLabel('Newsletter preview — subscriptions are not active.').fill('reader@example.com');
+  let formRequests = 0;
+  const recordSubmission = request => { if (!['GET', 'HEAD'].includes(request.method()) || /reader(?:%40|@)example\.com/i.test(request.url())) formRequests++; };
+  page.on('request', recordSubmission);
+  await page.getByRole('button', { name: 'Preview only', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'not been sent or saved' })).toBeVisible();
 
   for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
@@ -98,6 +106,32 @@ try {
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     }
   }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(baseUrl + '/science/red-light-therapy-skin', { waitUntil: 'networkidle' });
+  await expect(page.getByRole('navigation', { name: 'Mobile article contents' })).toBeHidden();
+  const contentsButton = page.getByRole('button', { name: 'In this article' });
+  await contentsButton.click();
+  await expect(contentsButton).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('navigation', { name: 'Mobile article contents' }).getByRole('link', { name: 'Frequently Asked Questions', exact: true }).click();
+  await expect(contentsButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(page).toHaveURL(/#frequently-asked-questions$/);
+  await page.locator('.article-faq summary').first().click();
+  await expect(page.locator('.article-faq details').first()).toHaveAttribute('open', '');
+  await page.screenshot({ path: 'screenshots/article-mobile.png', fullPage: true });
+  if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) failures.push('Reference article mobile overflow');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(baseUrl + '/science/red-light-therapy-skin', { waitUntil: 'networkidle' });
+  await expect(page.getByRole('navigation', { name: 'Table of contents', exact: true })).toBeVisible();
+  for (const link of await page.getByRole('navigation', { name: 'Table of contents', exact: true }).getByRole('link').all()) {
+    const href = await link.getAttribute('href');
+    if (!await page.locator(href).count()) failures.push(`Missing contents anchor: ${href}`);
+  }
+  if (await page.locator('.references').evaluate(element => getComputedStyle(element).listStyleType) !== 'decimal') failures.push('References must display numbered list markers');
+  await page.screenshot({ path: 'screenshots/article-desktop.png', fullPage: true });
+  await page.locator('#evidence-snapshot').screenshot({ path: 'screenshots/snapshot-desktop.png' });
+  await page.goto(baseUrl + '/reviews/omnilux-contour-face', { waitUntil: 'networkidle' });
+  await page.getByText('Our product evaluation framework', { exact: true }).click();
+  if (await page.locator('.review-framework dt').count() !== 9) failures.push('Review framework must have nine criteria');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(baseUrl + '/comparisons/omnilux-vs-solawave-vs-shark', { waitUntil: 'networkidle' });
   await page.screenshot({ path: 'screenshots/comparison-mobile.png', fullPage: true });
@@ -115,6 +149,9 @@ try {
   await page.getByLabel('Message', { exact: true }).fill('Static preview form validation.');
   await page.getByRole('button', { name: 'Preview message' }).click();
   await expect(page.getByRole('status')).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('not been sent, received, or saved');
+  if (formRequests) failures.push('Preview form made a submission request');
+  page.off('request', recordSubmission);
   const notFound = await page.request.get(baseUrl + '/does-not-exist');
   if (notFound.status() !== 404) failures.push('Unknown URL did not return HTTP 404');
 } finally {
