@@ -18,10 +18,16 @@ const articles = filesIn('content').filter(file => file.endsWith('.mdx')).map(fi
   return { title: data.title, url: `/${data.section}/${data.slug}` };
 });
 const links = new Set(['/robots.txt', '/sitemap.xml', '/icon.svg']);
+const sitemap = fs.readFileSync('out/sitemap.xml', 'utf8');
+const sitemapPaths = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => new URL(url).pathname));
+const robots = fs.readFileSync('out/robots.txt', 'utf8');
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');
-  if (!html.includes('<meta name="robots" content="noindex, nofollow"')) {
-    failures.push(`${file}: missing noindex/nofollow`);
+  const route = '/' + path.relative('out', file).replace(/index\.html$/, '').replace(/\.html$/, '');
+  const expectedRobots = sitemapPaths.has(route) ? 'index, follow' : 'noindex, nofollow';
+  const errorPage = ['404.html', '_not-found.html'].includes(path.basename(file));
+  if (errorPage ? !/<meta name="robots" content="noindex/.test(html) : !html.includes(`<meta name="robots" content="${expectedRobots}"`)) {
+    failures.push(`${file}: missing ${expectedRobots}`);
   }
   if (html.includes('/_next/image?')) failures.push(`${file}: requires image optimization server`);
   if (file !== 'out/404.html') {
@@ -31,10 +37,9 @@ for (const file of htmlFiles) {
     links.add(match[1].replaceAll('&amp;', '&'));
   }
 }
-if (!fs.readFileSync('out/robots.txt', 'utf8').includes('Disallow: /')) failures.push('robots.txt: crawling allowed');
-const sitemap = fs.readFileSync('out/sitemap.xml', 'utf8');
 if (!sitemap.includes('<urlset')) failures.push('sitemap.xml: invalid XML root');
-if (!process.env.NEXT_PUBLIC_SITE_URL && sitemap.includes('<loc>')) failures.push('sitemap.xml: invented domain');
+if (!robots.includes('Sitemap: https://proofwelllife.com/sitemap.xml')) failures.push('robots.txt: incorrect sitemap URL');
+if (/^Allow: \/$/m.test(robots) && !sitemapPaths.size) failures.push('Production sitemap is empty');
 if (!fs.existsSync('out/404.html')) failures.push('404.html missing');
 for (const article of articles) {
   if (!fs.existsSync(`out${article.url}.html`)) failures.push(`${article.url}: exported article missing`);

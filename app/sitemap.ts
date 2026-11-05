@@ -1,14 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { siteUrl, topics } from '@/lib/site';
-import { categories, information } from '@/lib/pages';
-import { getArticles, articleUrl } from '@/lib/content';
-import { absoluteSiteUrl } from '@/lib/metadata';
+import { siteUrl } from '@/lib/site';
+import { getIndexablePaths } from '@/lib/public-routes';
+import { isPreviewBuild } from '@/lib/indexing';
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!siteUrl) return [];
-  const paths = new Set(['/', ...Object.keys(categories).map(path=>'/'+path),
-    ...Object.keys(information).map(path=>'/'+path), '/topics',
-    ...topics.map(([,slug])=>'/topics/'+slug), ...getArticles().map(articleUrl)]);
-  return [...paths].map(path=>({url:absoluteSiteUrl(siteUrl,path)!}));
+  if (isPreviewBuild()) return [];
+  return getIndexablePaths().map(path => ({ url: new URL(path, siteUrl).href }));
 }
