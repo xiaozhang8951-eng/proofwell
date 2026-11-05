@@ -143,6 +143,7 @@ try {
   });
   if (!scrolls) failures.push('Mobile comparison table cannot scroll');
   await page.goto(baseUrl + '/contact', { waitUntil: 'networkidle' });
+  await page.getByText('Optional form preview — sending is not connected', { exact: true }).click();
   await page.getByLabel('Name', { exact: true }).fill('Draft Reader');
   await page.getByLabel('Email', { exact: true }).fill('reader@example.com');
   await page.getByLabel('Subject', { exact: true }).fill('Editorial question');
