@@ -1,7 +1,7 @@
 import { chromium, expect } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
-import { normalizeSiteOrigin, absoluteSiteUrl, pageMetadata } from '../lib/metadata.ts';
+import { normalizeSiteOrigin, absoluteSiteUrl, pageMetadata, productionSiteUrl } from '../lib/metadata.ts';
 import assert from 'node:assert/strict';
 
 // Reserved domain is a test fixture only; it is never configured for deployment.
@@ -40,6 +40,8 @@ const baseUrl=(process.env.BASE_URL||'http://localhost:4173').replace(/\/$/,'');
 const pages=['about','editorial-policy','affiliate-disclosure','privacy-policy','contact'];
 function filesIn(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?filesIn(path.join(dir,e.name)):[path.join(dir,e.name)]);}
 const htmlFiles=filesIn('out').filter(f=>f.endsWith('.html'));
+const sitemap=fs.readFileSync('out/sitemap.xml','utf8');
+const sitemapPaths=new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([,url])=>new URL(url).pathname));
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH||(fs.existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),headless:true,args:['--no-sandbox']});
 const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()}: ${r.url()}`)});
 const titles=new Map(),descriptions=new Map();
@@ -54,9 +56,10 @@ try{
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('img:not([alt])')).toHaveCount(0);
     if(await page.locator('img').evaluateAll(images=>images.some(image=>!image.alt.trim())))errors.push(`${url}: missing descriptive image alt text`);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex, nofollow');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',sitemapPaths.has(url)?'index, follow':'noindex, nofollow');
     for(const selector of ['meta[property="og:title"]','meta[property="og:description"]','meta[name="twitter:title"]','meta[name="twitter:description"]'])await expect(page.locator(selector)).toHaveCount(1);
-    if(!process.env.NEXT_PUBLIC_SITE_URL)await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+    const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
+    assert.equal(new URL(canonical).href,new URL(url,productionSiteUrl).href);
     for(const node of await page.locator('script[type="application/ld+json"]').all()){
       const data=JSON.parse(await node.textContent());
       assert.equal(data['@context'],'https://schema.org');
@@ -82,9 +85,9 @@ try{
   await page.goto(`${baseUrl}/editorial-policy`,{waitUntil:'networkidle'});
   for(const phrase of ['Stronger evidence','Moderate evidence','Preliminary evidence','Preclinical evidence'])await expect(page.locator('.trust-list')).toContainText(phrase);
   await page.goto(`${baseUrl}/contact`,{waitUntil:'networkidle'});await expect(page.getByText('Optional form preview — sending is not connected',{exact:true})).toBeVisible();await expect(page.getByLabel('Name',{exact:true})).toBeHidden();
-  assert.match(fs.readFileSync('out/robots.txt','utf8'),/Disallow: \//);
-  const sitemap=fs.readFileSync('out/sitemap.xml','utf8');assert.match(sitemap,/<urlset/);
-  if(!process.env.NEXT_PUBLIC_SITE_URL)assert.doesNotMatch(sitemap,/<loc>/);
+  const robots=fs.readFileSync('out/robots.txt','utf8');assert.match(robots,/Sitemap: https:\/\/proofwelllife\.com\/sitemap\.xml/);
+  assert.match(sitemap,/<urlset/);
+  if(/^Allow: \/$/m.test(robots))assert.ok(sitemapPaths.size>0,'Production sitemap must not be empty');
 }finally{await browser.close();}
 console.log(JSON.stringify({trustPages:pages,validatedPageMetadata:titles.size,contactViewports:[1440,390],screenshots:'screenshots/phase3/',errors},null,2));
 if(errors.length)process.exitCode=1;

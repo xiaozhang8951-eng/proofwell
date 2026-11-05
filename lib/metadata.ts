@@ -1,5 +1,16 @@
 import type { Metadata } from 'next';
 
+export const productionSiteUrl = 'https://proofwelllife.com';
+
+// Static export cannot recover missing build-time configuration at request time.
+export function resolveSiteOrigin(value?: string): string {
+  const configured = normalizeSiteOrigin(value);
+  if (configured && configured !== productionSiteUrl) {
+    throw new Error(`NEXT_PUBLIC_SITE_URL must be ${productionSiteUrl}; remove any stale preview origin before building.`);
+  }
+  return productionSiteUrl;
+}
+
 export function normalizeSiteOrigin(value?: string): string | undefined {
   if (!value?.trim()) return undefined;
   const url = new URL(value.trim());

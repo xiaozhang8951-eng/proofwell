@@ -1,5 +1,7 @@
 # Phase 3: trust pages and SEO review
 
+Historical Phase 3 record: the [Phase 4 sitemap release guide](sitemap-fix.md) supersedes the unset-domain and global noindex instructions below. The owner approved indexing eligible production landing/trust pages and explicitly chose to keep all 13 article drafts noindex.
+
 Work is isolated on `proofwell-phase3-trust-seo`, based on main commit `4efa2fda9b6ab5761a357bc6f78aa64457b154c9`. No merge or production deployment is part of this work.
 
 ## Official contact

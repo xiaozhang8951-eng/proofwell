@@ -110,17 +110,17 @@ All article pages are unpublished editorial drafts. Product names and interrogat
 - Licensed product imagery, actual affiliate relationships, and appropriate disclosures.
 - Legal owner/contact details, privacy retention/service details, jurisdiction-specific terms, and effective dates.
 
-`robots.ts` disallows crawling and root metadata emits `noindex, nofollow` while this is a draft. This reduces accidental indexing; it is not access control. Once facts and legal content are reviewed, deliberately revise both settings for launch.
+The Phase 4 sitemap fix enables indexing only for eligible production landing and trust pages. All 13 current articles remain unpublished drafts with `noindex, nofollow`, as the owner requested. Draft terms and empty planned collections also remain noindex. Cloudflare branch previews block all crawling and indexing. These directives are not access controls.
 
 ## Canonical URLs and static hosting
 
-Leave `NEXT_PUBLIC_SITE_URL` unset for now. No production domain is assumed. Without a real origin, no invented canonical domain, absolute JSON-LD, or sitemap URLs are emitted. `out/sitemap.xml` is generated as an empty URL set while the origin is unset; `out/robots.txt` still disallows crawling, and HTML preserves `noindex, nofollow`. The existing Article, Organization, and Breadcrumb JSON-LD components remain available but only emit absolute URLs after an origin is configured. No fabricated publication dates or ratings are included.
+The owner-approved production origin is `https://proofwelllife.com`. It is the build-time default even when `NEXT_PUBLIC_SITE_URL` is unset, so missing configuration cannot silently produce an empty production sitemap. If this optional variable is configured, it must normalize to exactly that HTTPS origin. A stale `pages.dev` origin or a different domain fails the build with a clear error.
 
-After Cloudflare assigns the project's stable `pages.dev` address, set `NEXT_PUBLIC_SITE_URL` to that exact HTTPS origin without a trailing slash and rebuild. Do not use a per-deployment preview hash as the permanent canonical origin. Later, when an owned domain is ready, update the value and rebuild again. This variable is public build-time configuration, not a secret or a database setting.
+Canonical, Open Graph, structured-data and sitemap URLs all use the same production origin. The production sitemap currently has 19 eligible public page URLs. Publication dates are not invented: articles enter the sitemap after editorial approval and a real `published: YYYY-MM-DD` date, provided neither `draft: true` nor `noindex: true` is set. See [the sitemap release guide](docs/sitemap-fix.md) for exact eligibility, validation and production verification.
 
 ## Cloudflare Pages Free
 
-The repository root contains `package.json`. Connect `xiaozhang8951-eng/proofwell` only when deployment is authorized, and select `proofwell-draft` as the source branch for this draft. Do not merge changes into `main`. Keep automatic deployments from other branches disabled if only this draft should deploy. Cloudflare's term “production branch” refers to the source for the stable `pages.dev` address; it does not mean this draft has been approved for public launch. Keep the site's noindex policy until launch is separately authorized.
+The repository root contains `package.json`. The existing production project should build `main`; develop this fix on `fix/proofwell-sitemap` and merge through a reviewed pull request, never a direct push to `main`. Preserve the existing `proofwelllife.com` domain and DNS. Cloudflare's supplied `CF_PAGES=1` and `CF_PAGES_BRANCH` distinguish production `main` from protected branch previews; a missing branch value under Cloudflare also keeps indexing blocked.
 
 | Setting | Value |
 | --- | --- |
@@ -131,13 +131,13 @@ The repository root contains `package.json`. Connect `xiaozhang8951-eng/proofwel
 | Build Command | `npm run build` |
 | Build Output Directory | `out` |
 | Database / application secrets | None |
-| `NEXT_PUBLIC_SITE_URL` | Leave unset until the actual stable `pages.dev` URL is assigned |
+| `NEXT_PUBLIC_SITE_URL` | `https://proofwelllife.com`, or unset to use the approved default |
 
 Pages installs dependencies before building by default. To enforce exactly `npm ci`, set the **build-only** variable `SKIP_DEPENDENCY_INSTALL=1` and use `npm ci && npm run build` as the build command. This does not introduce a runtime environment dependency. Do not use `next export`, `next start`, `.next`, an OpenNext adapter, or Wrangler to serve this static site. No new package is required.
 
 Deploy the entire `out/` directory, including `_next/` and Next.js navigation payload files. Retain `404.html` and Pages' clean-URL behavior; do not add a catch-all SPA rewrite to `index.html`. Direct visits and refreshes must resolve each article's own exported HTML. New content requires a rebuild and deployment.
 
-No Cloudflare/Vercel deployment or domain purchase has been performed. The generated `out/`, `.next/`, local screenshots, and local `.env*` files are excluded from Git; Pages generates the deployable artifact from the committed source and lockfile. The former Vercel server-output instructions have been superseded by this static Pages setup. Vercel Pro is not required.
+The generated `out/`, `.next/`, local screenshots, and local `.env*` files are excluded from Git; Pages generates the deployable artifact from the committed source and lockfile. Static export has no runtime sitemap regeneration: changing build variables requires a fresh build and deployment. Vercel Pro is not required.
 
 ## Browser verification
 
@@ -145,8 +145,10 @@ Run `npm run build`, then `npm start`. In another terminal run `node scripts/che
 
 Editorial metadata guard checks can be run with `node scripts/check-editorial.mjs` on Node 24. They test review/date/evidence gating and missing/unsafe source handling without adding published sample sources or credentials.
 
+Run `node scripts/check-indexing.mjs` for publication, canonical-origin and preview guards. With the static server running, `npm run check:sitemap` parses the actual served XML and verifies every listed page's HTTP status, canonical and indexing directives, plus exact agreement with the exported HTML. For the required final live check, run `BASE_URL=https://proofwelllife.com npm run check:sitemap` against the same built commit after deployment; local-only success is not production verification.
+
 ## Phase 3 trust and SEO
 
 The current contact is **ProofWell Editorial Team — proofwelllife@gmail.com**. Edit `officialContact` in `lib/site.ts` to change it consistently across trust pages, the footer, and Organization structured data. Trust-page content is in `lib/trust-pages.ts`; `/editorial-policy` is the full policy and the existing `/editorial-standards` route remains available as an overview.
 
-See [the Phase 3 review guide](docs/phase3-trust-seo.md) for remaining owner inputs, validation commands and the exact indexing-release checklist. Global noindex/nofollow and robots blocking remain enabled. No deployment is performed by this work. The historical `proofwell-draft` instructions above describe the earlier MVP workflow; Phase 3 changes are developed on `proofwell-phase3-trust-seo` and must not be merged into main or deployed without approval.
+See [the Phase 3 review guide](docs/phase3-trust-seo.md) for remaining owner content inputs and the historical preview policy. The current Phase 4 request authorizes eligible production public pages for indexing while preserving all 13 article drafts; [the sitemap release guide](docs/sitemap-fix.md) supersedes the earlier global noindex and unset-domain instructions.
