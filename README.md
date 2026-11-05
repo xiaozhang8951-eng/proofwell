@@ -144,3 +144,9 @@ No Cloudflare/Vercel deployment or domain purchase has been performed. The gener
 Run `npm run build`, then `npm start`. In another terminal run `node scripts/check-site.mjs`; it uses http://localhost:4173 by default. Set `BASE_URL` to check a different local static preview. It uses `/usr/bin/chromium` when available; otherwise install a Playwright browser with `npx playwright install chromium`. Set `CHROMIUM_EXECUTABLE_PATH` to use another installed browser. It checks internal routes, direct article visits and refreshes, search, mobile navigation, form feedback, 404 behavior, static resource loading, noindex metadata, and horizontal overflow at four viewport widths. Screenshots are saved in the ignored `screenshots/` folder.
 
 Editorial metadata guard checks can be run with `node scripts/check-editorial.mjs` on Node 24. They test review/date/evidence gating and missing/unsafe source handling without adding published sample sources or credentials.
+
+## Phase 3 trust and SEO
+
+The current contact is **ProofWell Editorial Team — proofwelllife@gmail.com**. Edit `officialContact` in `lib/site.ts` to change it consistently across trust pages, the footer, and Organization structured data. Trust-page content is in `lib/trust-pages.ts`; `/editorial-policy` is the full policy and the existing `/editorial-standards` route remains available as an overview.
+
+See [the Phase 3 review guide](docs/phase3-trust-seo.md) for remaining owner inputs, validation commands and the exact indexing-release checklist. Global noindex/nofollow and robots blocking remain enabled. No deployment is performed by this work. The historical `proofwell-draft` instructions above describe the earlier MVP workflow; Phase 3 changes are developed on `proofwell-phase3-trust-seo` and must not be merged into main or deployed without approval.
