@@ -1,5 +1,6 @@
 import type { Article } from '@/lib/content';
 import { headingId } from '@/lib/content';
+import { isPublishedArticle } from '@/lib/public-routes';
 import { assessedEvidence, completedReview, isEditorialDate } from '@/lib/editorial';
 import { evaluationFramework } from '@/lib/templates';
 import { EvidenceLevel, EvidenceSnapshot } from './evidence';
@@ -23,6 +24,7 @@ export function ArticleDates({ article }: { article: Article }) {
 
 export function EditorialSummary({ article }: { article: Article }) {
   const assessment = assessedEvidence(article.evidenceAssessment);
+  const publishedArticle2 = article.slug === 'how-led-masks-work' && isPublishedArticle(article);
   return <aside id="evidence-snapshot" className="editorial-summary" aria-label="Evidence assessment">
     <EvidenceSnapshot data={article.evidenceSnapshot || {
       researchTopic: article.shortTitle,
@@ -33,8 +35,8 @@ export function EditorialSummary({ article }: { article: Article }) {
     }}/>
     <span className="eyebrow">REVIEW STATUS</span>
     {assessment ? <><EvidenceLevel level={assessment.level}/><p>{assessment.summary}</p></> :
-      <p><strong>{article.evidenceSnapshot?.verified ? 'Evidence grade not assigned.' : 'Evidence not yet assessed.'}</strong> {article.evidenceSnapshot?.verified ? 'See the snapshot for documented findings and uncertainty.' : 'This draft has no assigned evidence grade or product recommendation.'}</p>}
-    {!completedReview(article.scientificReview) && <p className="review-pending">Scientific review has not been completed for this draft.</p>}
+      <p><strong>{article.evidenceSnapshot?.verified ? 'Evidence grade not assigned.' : 'Evidence not yet assessed.'}</strong> {article.evidenceSnapshot?.verified ? 'See the snapshot for documented findings and uncertainty.' : publishedArticle2 ? 'This article has no assigned evidence grade or product recommendation.' : 'This draft has no assigned evidence grade or product recommendation.'}</p>}
+    {!completedReview(article.scientificReview) && <p className="review-pending">{publishedArticle2 ? 'Scientific review has not been completed for this article.' : 'Scientific review has not been completed for this draft.'}</p>}
     <p>Research findings, proposed mechanisms, manufacturer claims, and editorial interpretation are evaluated separately. <a href="/editorial-standards">Our editorial standards</a></p>
 
   </aside>;
