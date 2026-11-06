@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 import { chromium } from '@playwright/test';
 import { resolveSiteOrigin, productionSiteUrl } from '../lib/metadata.ts';
 import { isPreviewBuild, pageRobots } from '../lib/indexing.ts';
+import { getArticles, articleUrl } from '../lib/content.ts';
 
 assert.equal(resolveSiteOrigin(), productionSiteUrl);
 assert.equal(resolveSiteOrigin(''), productionSiteUrl);
@@ -18,6 +19,12 @@ assert.equal(isPreviewBuild({ CF_PAGES: '1', CF_PAGES_BRANCH: 'fix/sitemap' }), 
 assert.equal(isPreviewBuild({ CF_PAGES: '1' }), true);
 assert.equal(isPreviewBuild({ NODE_ENV: 'development' }), true);
 assert.deepEqual(pageRobots(false), { index: false, follow: false });
+const articles = getArticles();
+const article2 = articles.find(article => article.slug === 'how-led-masks-work');
+assert.ok(article2, 'Article 2 must exist');
+const article2Url = new URL(articleUrl(article2), productionSiteUrl).href;
+const protectedArticles = articles.filter(article => article !== article2);
+assert.equal(protectedArticles.length, 12, 'This release must preserve the other twelve articles');
 
 const base = new URL(process.env.BASE_URL || 'http://127.0.0.1:4173');
 assert.ok(base.origin === productionSiteUrl || ['127.0.0.1', 'localhost'].includes(base.hostname), 'Use the canonical production origin or a local static server');
@@ -74,7 +81,12 @@ async function htmlMetadata(html) {
     const document = new DOMParser().parseFromString(source, 'text/html');
     return {
       canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+      canonicalCount: document.querySelectorAll('link[rel="canonical"]').length,
       robots: [...document.querySelectorAll('meta[name="robots"],meta[name="googlebot"]')].map(meta => meta.content),
+      ogUrl: document.querySelector('meta[property="og:url"]')?.content,
+      ogType: document.querySelector('meta[property="og:type"]')?.content,
+      ogImage: document.querySelector('meta[property="og:image"]')?.content,
+      jsonld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(script => JSON.parse(script.textContent)),
     };
   }, html);
 }
@@ -92,6 +104,10 @@ try {
   const urls = await sitemapUrls(response.body);
   assert.ok(urls.length > 0, 'Production sitemap is empty');
   assert.equal(new Set(urls).size, urls.length, 'Duplicate sitemap URLs');
+  assert.equal(urls.filter(url => url === article2Url).length, 1, 'Article 2 must appear exactly once');
+  for (const article of protectedArticles) {
+    assert.ok(!urls.includes(new URL(articleUrl(article), productionSiteUrl).href), `Draft in sitemap: ${articleUrl(article)}`);
+  }
   const expected = await sitemapUrls(fs.readFileSync('out/sitemap.xml', 'utf8'));
   assert.deepEqual([...urls].sort(), [...expected].sort(), 'Served sitemap differs from this export; deployment may be stale');
   const robots = (await request('/robots.txt')).body;
@@ -110,6 +126,26 @@ try {
     const metadata = await htmlMetadata(body);
     assert.ok(!metadata.robots.some(value => /\b(?:noindex|none)\b/i.test(value)), `${url}: page is noindex`);
     assert.equal(new URL(metadata.canonical).href, parsed.href, `${url}: canonical mismatch`);
+    assert.equal(metadata.canonicalCount, 1, `${url}: duplicate canonical`);
+    if (url === article2Url) {
+      assert.ok(metadata.robots.length > 0, 'Article 2 robots metadata missing');
+      assert.ok(metadata.robots.every(value => !/\b(?:noindex|nofollow|none)\b/i.test(value)));
+      assert.equal(metadata.ogUrl, article2Url);
+      assert.equal(metadata.ogType, 'article');
+      assert.equal(metadata.ogImage, new URL(article2.heroImage, productionSiteUrl).href);
+      const structuredArticles = metadata.jsonld.filter(item => item['@type'] === 'Article');
+      assert.equal(structuredArticles.length, 1);
+      const structured = structuredArticles[0];
+      assert.equal(structured.mainEntityOfPage, article2Url);
+      assert.equal(structured.headline, article2.title);
+      assert.equal(structured.datePublished, article2.published);
+      assert.equal(structured.author.name, article2.author);
+      assert.equal(structured.author['@type'], 'Organization');
+      assert.deepEqual(structured.image, [new URL(article2.heroImage, productionSiteUrl).href]);
+      assert.equal(structured.dateModified, article2.updated);
+      assert.equal(structured.reviewedBy, undefined, 'Do not invent scientific review');
+      assert.equal(structured.reviewRating, undefined, 'Do not invent a scientific or product rating');
+    }
   }
   // Independent check of the artifact: every indexable exported page must be listed.
   const indexableExport = [];
@@ -125,10 +161,14 @@ try {
     }
   }
   assert.deepEqual([...indexableExport].sort(), [...urls].sort(), 'Sitemap does not match indexable exported HTML');
+  for (const article of protectedArticles) {
+    assert.ok(noindexExport.includes(articleUrl(article)), `Draft HTML lost noindex: ${articleUrl(article)}`);
+  }
   console.log(JSON.stringify({ mode: live ? 'PRODUCTION VERIFIED' : 'LOCAL ONLY — production verification still required',
     baseUrl: base.origin, sitemapUrls: urls.length, listedPagesHttp200: urls.length,
     excludedNoindexPages: noindexExport, canonicalOrigin: productionSiteUrl,
-    xmlParsed: true, duplicates: 0, urls }, null, 2));
+    xmlParsed: true, duplicates: 0, article2Occurrences: 1, protectedArticleDrafts: protectedArticles.length,
+    article2CanonicalOpenGraphAndJsonld: true, urls }, null, 2));
 } finally {
   await browser.close();
   fs.rmSync(directory, { recursive: true, force: true });

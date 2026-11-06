@@ -37,7 +37,8 @@ export function Citation({number,references}:{number:number;references?:Referenc
  if(!Number.isInteger(number)||number<1||!reference||!(reference.title||reference.citation))return <span className="citation-pending"> [Verified reference required]</span>;
  return <sup className="citation"><a href={`#reference-${number}`} aria-label={`Reference ${number}`}>[{number}]</a></sup>;
 }
-export function EvidenceSnapshot({data}:{data:EvidenceSnapshotData}) {
+export function EvidenceSnapshot({data}:{data:EvidenceSnapshotData & {visible?:boolean}}) {
+ if(data.visible===false)return null;
  const verified=data.verified===true;
  const findings=verified&&data.mainFindings?.length?data.mainFindings:['[VERIFY BEFORE PUBLICATION] — No verified findings or clinical conclusions have been added.'];
  const limitations=data.limitations?.length?data.limitations:['[VERIFY BEFORE PUBLICATION] — Study quality, device differences, funding, follow-up, and applicability still need assessment.'];
