@@ -36,7 +36,7 @@ assert.equal(new Set(getPublicPaths([...articles, articles[0]])).size, publicPat
 assert.ok(indexablePaths.every(route => publicPaths.includes(route)), 'Sitemap includes an unregistered route');
 const article2 = articles.find(article => article.slug === 'how-led-masks-work');
 assert.ok(article2, 'Article 2 must exist');
-const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm', 'irradiance-vs-fluence'];
+const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm', 'irradiance-vs-fluence', 'red-vs-near-infrared'];
 const releasedArticles = [...articles].filter(article => releasedSlugs.includes(article.slug));
 assert.deepEqual(releasedArticles.map(article => article.slug).sort(), [...releasedSlugs].sort());
 for (const article of releasedArticles) {
