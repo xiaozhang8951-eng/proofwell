@@ -15,7 +15,7 @@ const exportedFiles = filesIn('out');
 const htmlFiles = exportedFiles.filter(file => file.endsWith('.html'));
 const articles = filesIn('content').filter(file => file.endsWith('.mdx')).map(file => {
   const { data } = matter(fs.readFileSync(file, 'utf8'));
-  return { title: data.title, url: `/${data.section}/${data.slug}` };
+  return { title: data.title, url: `/${data.section}/${data.slug}`, snapshotVisible: data.evidenceSnapshot?.visible !== false };
 });
 const links = new Set(['/robots.txt', '/sitemap.xml', '/icon.svg']);
 const sitemap = fs.readFileSync('out/sitemap.xml', 'utf8');
@@ -72,7 +72,9 @@ try {
     const response = await page.goto(baseUrl + article.url, { waitUntil: 'networkidle' });
     if (response.status() !== 200) failures.push(`${article.url}: direct visit failed`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(article.title);
-    await expect(page.getByRole('complementary', { name: 'Evidence Snapshot', exact: true })).toBeVisible();
+    const snapshot = page.getByRole('complementary', { name: 'Evidence Snapshot', exact: true });
+    if (article.snapshotVisible) await expect(snapshot).toBeVisible();
+    else await expect(snapshot).toHaveCount(0);
     if (await page.getByText('Scientifically reviewed by', { exact: false }).count()) failures.push(`${article.url}: unearned reviewer attribution`);
     if (await page.locator('.evidence-level').count()) failures.push(`${article.url}: unverified evidence grade`);
     const reloaded = await page.reload({ waitUntil: 'networkidle' });

@@ -36,10 +36,14 @@ assert.equal(new Set(getPublicPaths([...articles, articles[0]])).size, publicPat
 assert.ok(indexablePaths.every(route => publicPaths.includes(route)), 'Sitemap includes an unregistered route');
 const article2 = articles.find(article => article.slug === 'how-led-masks-work');
 assert.ok(article2, 'Article 2 must exist');
-assert.equal(isPublishedArticle(article2), true, 'Article 2 requires a valid publication date and released metadata');
-assert.equal(indexablePaths.filter(route => route === articleUrl(article2)).length, 1);
-const otherArticles = articles.filter(article => article !== article2);
-assert.equal(otherArticles.length, 12, 'This release must preserve the other twelve articles');
+const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm'];
+const releasedArticles = [...articles].filter(article => releasedSlugs.includes(article.slug));
+assert.deepEqual(releasedArticles.map(article => article.slug).sort(), [...releasedSlugs].sort());
+for (const article of releasedArticles) {
+  assert.equal(isPublishedArticle(article), true, `${article.slug} requires a valid publication date and released metadata`);
+  assert.equal(indexablePaths.filter(route => route === articleUrl(article)).length, 1);
+}
+const otherArticles = articles.filter(article => !releasedSlugs.includes(article.slug));
 for (const article of otherArticles) {
   assert.equal(isPublishedArticle(article), false, `Unexpected article publication: ${articleUrl(article)}`);
   assert.ok(!indexablePaths.includes(articleUrl(article)));
@@ -78,7 +82,10 @@ const xml = fs.readFileSync('out/sitemap.xml', 'utf8');
 assert.ok(!/<!DOCTYPE|<!ENTITY/i.test(xml), 'Unexpected XML entities');
 const exportedUrls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]).sort();
 assert.deepEqual(exportedUrls, expectedUrls, 'Exported sitemap is stale or differs from eligible public routes');
-assert.equal(exportedUrls.filter(url => url === new URL(articleUrl(article2), origin).href).length, 1);
+for (const article of releasedArticles) {
+  assert.equal(exportedUrls.filter(url => url === new URL(articleUrl(article), origin).href).length, 1);
+}
 console.log(JSON.stringify({ publicRoutes: publicPaths.length, indexableRoutes: indexablePaths.length,
-  exportedSitemapUrls: exportedUrls.length, article2Occurrences: 1, protectedDrafts: otherArticles.length,
+  exportedSitemapUrls: exportedUrls.length, releasedArticles: releasedArticles.map(article => article.slug),
+  eachReleasedArticleOccursOnce: true, protectedDrafts: otherArticles.length,
   publicationDateAndNoindexGuards: true, previewProtection: true }, null, 2));
