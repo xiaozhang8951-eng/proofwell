@@ -91,7 +91,7 @@ try {
   await page.getByRole('textbox', { name: 'Search articles' }).fill('irradiance');
   await page.getByRole('dialog').getByRole('link', { name: /Irradiance vs Fluence/ }).click();
   await page.waitForURL('**/science/irradiance-vs-fluence');
-  await expect(page.getByText('Fluence = Irradiance × Time', { exact: true })).toBeVisible();
+  await expect(page.getByText('Radiant exposure (J/cm²) = Irradiance (W/cm²) × Time (seconds)', { exact: true })).toBeVisible();
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
   await page.getByLabel('Newsletter preview — subscriptions are not active.').fill('reader@example.com');
   let formRequests = 0;
