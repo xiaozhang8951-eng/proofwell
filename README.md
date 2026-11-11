@@ -100,27 +100,27 @@ No active affiliate relationships or links are included. The reusable `Commercia
 
 ## Before public launch
 
-All article pages are unpublished editorial drafts. Product names and interrogative draft titles reflect the brief, not independently verified claims. All of the following still require owner review:
+Publication status is set per article. Approved science explainers may be published; unfinished articles and product-review frameworks retain their draft protections. A publication date does not establish scientific review or independently verified claims. The following still require appropriate editorial review:
 
 - Scientific mechanisms, clinical findings, efficacy, safety, and realistic expectations.
-- Real references (all sample citations say `[Verified reference required]`).
+- Bibliographic identity, DOI/PMID correspondence, source access and claim relevance; a displayed reference is not automatically verified.
 - Device specifications, doses, usage protocols, warnings, regulatory status, current region-specific prices, and source/access dates.
 - Verdicts, pros/cons, product suitability, recommendations, and any future ratings.
 - Founder credentials, author biography, any hands-on testing claims, and actual publication/update dates.
 - Licensed product imagery, actual affiliate relationships, and appropriate disclosures.
 - Legal owner/contact details, privacy retention/service details, jurisdiction-specific terms, and effective dates.
 
-The Phase 4 sitemap fix enables indexing only for eligible production landing and trust pages. All 13 current articles remain unpublished drafts with `noindex, nofollow`, as the owner requested. Draft terms and empty planned collections also remain noindex. Cloudflare branch previews block all crawling and indexing. These directives are not access controls.
+Production permits indexing for published articles and eligible public landing/trust pages. Unfinished articles, the draft terms page and empty planned collections retain `noindex, nofollow`. Cloudflare branch previews block all crawling and indexing. These directives are not access controls. The current per-URL classification is recorded in [the indexing audit](docs/indexing-audit.md).
 
 ## Canonical URLs and static hosting
 
 The owner-approved production origin is `https://proofwelllife.com`. It is the build-time default even when `NEXT_PUBLIC_SITE_URL` is unset, so missing configuration cannot silently produce an empty production sitemap. If this optional variable is configured, it must normalize to exactly that HTTPS origin. A stale `pages.dev` origin or a different domain fails the build with a clear error.
 
-Canonical, Open Graph, structured-data and sitemap URLs all use the same production origin. The production sitemap currently has 19 eligible public page URLs. Publication dates are not invented: articles enter the sitemap after editorial approval and a real `published: YYYY-MM-DD` date, provided neither `draft: true` nor `noindex: true` is set. See [the sitemap release guide](docs/sitemap-fix.md) for exact eligibility, validation and production verification.
+Canonical, Open Graph, structured-data and sitemap URLs all use the same production origin. The sitemap is generated dynamically from `getIndexablePaths()`; do not hard-code a URL count. Articles enter it after editorial approval and a valid, non-future `published: YYYY-MM-DD` date, provided neither `draft: true` nor `noindex: true` is set. The [indexing audit](docs/indexing-audit.md) records the current inventory and validation results. Error pages remain noindex and do not inherit the homepage canonical.
 
 ## Cloudflare Pages Free
 
-The repository root contains `package.json`. The existing production project should build `main`; develop this fix on `fix/proofwell-sitemap` and merge through a reviewed pull request, never a direct push to `main`. Preserve the existing `proofwelllife.com` domain and DNS. Cloudflare's supplied `CF_PAGES=1` and `CF_PAGES_BRANCH` distinguish production `main` from protected branch previews; a missing branch value under Cloudflare also keeps indexing blocked.
+The repository root contains `package.json`. The production project should build `main`; use the Git workflow explicitly authorized by the owner for the current change. Preserve the existing `proofwelllife.com` domain and DNS. Cloudflare's supplied `CF_PAGES=1` and `CF_PAGES_BRANCH` distinguish production `main` from protected branch previews; a missing branch value under Cloudflare also keeps indexing blocked.
 
 | Setting | Value |
 | --- | --- |
@@ -151,4 +151,4 @@ Run `node scripts/check-indexing.mjs` for publication, canonical-origin and prev
 
 The current contact is **ProofWell Editorial Team — proofwelllife@gmail.com**. Edit `officialContact` in `lib/site.ts` to change it consistently across trust pages, the footer, and Organization structured data. Trust-page content is in `lib/trust-pages.ts`; `/editorial-policy` is the full policy and the existing `/editorial-standards` route remains available as an overview.
 
-See [the Phase 3 review guide](docs/phase3-trust-seo.md) for remaining owner content inputs and the historical preview policy. The current Phase 4 request authorizes eligible production public pages for indexing while preserving all 13 article drafts; [the sitemap release guide](docs/sitemap-fix.md) supersedes the earlier global noindex and unset-domain instructions.
+See [the Phase 3 review guide](docs/phase3-trust-seo.md) for remaining owner content inputs and the historical preview policy. The current policy permits indexing eligible production public pages and published articles while protecting unfinished content; [the indexing audit](docs/indexing-audit.md) supersedes historical fixed URL counts and blanket draft descriptions. [The sitemap release guide](docs/sitemap-fix.md) records the earlier empty-sitemap fix.

@@ -1,5 +1,7 @@
 # Sitemap fix and production verification
 
+Historical release record: article status, URL counts and the original branch workflow below describe that release. For the current per-URL classification, published-article inventory and 404 metadata checks, see [the indexing audit](indexing-audit.md). Use the owner-authorized workflow for the current task.
+
 ## Reproduced root cause
 
 The former `app/sitemap.ts` returned `[]` when `NEXT_PUBLIC_SITE_URL` was missing. `lib/site.ts` supplied no default, and the earlier README explicitly instructed leaving that variable unset. Running the unchanged `main` code at `d4be6b1` with the variable unset reproduced a successful build containing an XML `<urlset>` with zero entries. Static export writes this result to `out/sitemap.xml`; there is no runtime server to fill it later. There is no `public/sitemap.xml` to override the generated route.

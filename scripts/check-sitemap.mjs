@@ -156,6 +156,17 @@ try {
   for (const file of htmlFiles('out')) {
     const route = '/' + path.relative('out', file).replace(/index\.html$/, '').replace(/\.html$/, '');
     const metadata = await htmlMetadata(fs.readFileSync(file, 'utf8'));
+    const directives = new Set(metadata.robots.flatMap(value => value.toLowerCase().split(/[\s,]+/)));
+    assert.ok(metadata.robots.length > 0, `${file}: robots metadata is missing`);
+    assert.ok(!(directives.has('index') && (directives.has('noindex') || directives.has('none'))), `${file}: conflicting index/noindex directives`);
+    assert.ok(!(directives.has('follow') && (directives.has('nofollow') || directives.has('none'))), `${file}: conflicting follow/nofollow directives`);
+    if (['/404', '/_not-found'].includes(route)) {
+      assert.ok(directives.has('noindex'), `${file}: error pages must remain noindex`);
+      assert.equal(metadata.canonicalCount, 0, `${file}: error pages must not inherit the homepage canonical`);
+    } else {
+      assert.equal(metadata.canonicalCount, 1, `${file}: expected exactly one canonical`);
+      assert.equal(new URL(metadata.canonical).href, new URL(route, productionSiteUrl).href, `${file}: expected a self-canonical`);
+    }
     if (metadata.robots.some(value => /\b(?:noindex|none)\b/i.test(value))) {
       noindexExport.push(route);
     } else {
