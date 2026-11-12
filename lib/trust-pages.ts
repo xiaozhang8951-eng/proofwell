@@ -134,7 +134,7 @@ export const trustPages: Record<string, InfoPage> = {
       },
       {
         "title": "No unverified partnership claims",
-        "text": "This page describes how potential affiliate relationships would be handled. It does not claim that ProofWell currently participates in any affiliate program. No particular network, commission rate, active partnership, or purchase link is represented as verified here."
+        "text": "The MEGELIN face and neck mask review includes an owner-authorized PartnerBoost affiliate link. Compensation depends on qualifying purchases and applicable program terms. The supplied destination and commission terms have not been independently confirmed by the editorial team; link placement does not certify a product, seller, scientific claim or favorable review."
       },
       {
         "title": "Coverage cannot be bought",
@@ -142,7 +142,7 @@ export const trustPages: Record<string, InfoPage> = {
       },
       {
         "title": "Disclosures where they matter",
-        "text": "Commercial articles carry a disclosure near the beginning. A disclosure can also appear beside a relevant commercial link. Future affiliate links must use a real, approved destination and appropriate sponsored link attributes; placeholder or fabricated affiliate URLs are not used.",
+        "text": "Commercial articles carry a disclosure near the beginning. A disclosure can also appear beside a relevant commercial link. Affiliate links use owner-approved destinations and sponsored link attributes; placeholder or fabricated affiliate URLs are not used.",
         "links": [
           {
             "label": "Buying guides",
@@ -156,7 +156,7 @@ export const trustPages: Record<string, InfoPage> = {
       },
       {
         "title": "External sites and tracking",
-        "text": "A third-party seller or affiliate service may process information when a reader follows its links. That service has its own privacy practices. The actual tracking and providers must be confirmed before any affiliate integration is activated.",
+        "text": "A third-party seller or affiliate service may process information when a reader follows its links. That service has its own privacy practices. The MEGELIN review uses an outbound PartnerBoost link at pboost.me. Its destination, third-party tracking and retention practices have not been independently verified; check the notices of the services you visit.",
         "links": [
           {
             "label": "Privacy policy",
@@ -198,7 +198,7 @@ export const trustPages: Record<string, InfoPage> = {
       },
       {
         "title": "Third-party services and external links",
-        "text": "Research references and other external links take you to sites with their own privacy practices. Future analytics, advertising, newsletter, or form services must be documented if connected; no specific such service is claimed to be active. Future affiliate links may use tracking operated by external providers, whose practices should be described when the integration is verified.",
+        "text": "Research references and other external links take you to sites with their own privacy practices. Future analytics, advertising, newsletter, or form services must be documented if connected; no specific such service is claimed to be active. The MEGELIN review contains an outbound PartnerBoost affiliate link at pboost.me. Following it takes you to third-party services that may process referral information under their own notices. Their destination, tracking and retention practices have not been independently verified. No PartnerBoost script or tracking cookie is added by this website code.",
         "links": [
           {
             "label": "Affiliate disclosure",
