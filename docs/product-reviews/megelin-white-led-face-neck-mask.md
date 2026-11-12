@@ -46,7 +46,7 @@ Edited concepts are saved as optimized WebP, each 1536 × 1024, maintaining 3:2:
 - `public/images/photobiomodulation-cellular-effects.webp`: proposed mechanisms, CCO one proposed target, possible signaling; no guaranteed ATP/collagen or anti-inflammatory result.
 - `public/images/face-neck-coverage-concept.webp`: generic regions, fit/output requiring verification; no comfort or cordless guarantee.
 
-The PNG's product rendering has not been authenticated as an authorized official photograph. It is not published as a real product image. The hero/card uses `megelin-white-led-face-neck-mask-placeholder.webp`, a 1200 × 800 text-only placeholder explicitly saying no product is depicted. Replace it only with a rights-cleared, exact-model photograph; do not derive device specifications from the collage.
+The uploaded PNG's product rendering has not been authenticated as an authorized official photograph and is not published as a real product image. At the owner's request, the hero/card now uses `megelin-white-led-face-neck-mask-editorial-cover.webp`, a 1536 × 1024 original typographic editorial cover with a white background and subtle abstract light accents. It contains the supplied title, supporting text, PROOFWELL REVIEW label and independent-review note; no product is depicted. Amazon product photographs must not be used without explicit brand/affiliate creative authorization. The three scientific body illustrations are unchanged.
 
 Concepts have descriptive alt text, responsive intrinsic dimensions, full-size links, lazy loading and explicit captions distinguishing them from product measurements or clinical results. Original uploads and generated source PNGs remain outside the repository for comparison.
 
