@@ -18,9 +18,9 @@ export function ReferenceList({items=['[Verified reference required]']}:{items?:
 }
 export function AffiliateDisclosure({compact=false}:{compact?:boolean}) {return <aside className={`disclosure${compact?' disclosure-compact':''}`}><strong>Disclosure:</strong> ProofWell may earn a commission when readers purchase through certain links. This does not affect our editorial conclusions. <a href="/affiliate-disclosure">Read our affiliate disclosure.</a></aside>}
 // Use only after the owner supplies a real, approved commercial destination.
-export function CommercialLink({href,children}:{href?:string;children:ReactNode}) {
+export function CommercialLink({href,children,target,disclosure}:{href?:string;children:ReactNode;target?:'_blank';disclosure?:string}) {
  const url=sourceUrl(href);if(!url)return null;
- return <div className="commercial-reference"><AffiliateDisclosure compact/><a href={url} rel="sponsored nofollow noopener">{children}</a></div>;
+ return <div className="commercial-reference">{disclosure?<aside className="disclosure disclosure-compact">{disclosure} <a href="/affiliate-disclosure">Read our affiliate disclosure.</a></aside>:<AffiliateDisclosure compact/>}<a href={url} rel="sponsored nofollow noopener" target={target}>{children}</a></div>;
 }
 export function Limitations({items}:{items:string[]}) {return <EvidenceBox title="Limitations & uncertainty"><ul>{items.map(item=><li key={item}>{item}</li>)}</ul></EvidenceBox>}
 export function EvidenceSeparation({claims,evidence}:{claims?:string[];evidence?:string[]}) {return <div className="pros-cons evidence-separation"><section><h3>Manufacturer claims</h3>{claims?.length?<ul>{claims.map(c=><li key={c}>{c}</li>)}</ul>:<p>Claims have not yet been documented and verified.</p>}</section><section><h3>Scientific evidence</h3>{evidence?.length?<ul>{evidence.map(c=><li key={c}>{c}</li>)}</ul>:<p>Supporting research has not yet been assessed.</p>}</section></div>}
