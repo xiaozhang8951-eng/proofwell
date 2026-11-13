@@ -101,3 +101,16 @@ The owner supplied copied product bullets, a product-details screenshot, the Whi
 - Browser checks confirmed eight FAQs, four references, 16 specification rows, image loading, direct access/refresh, internal links and no horizontal overflow. The existing site regression visited all 14 articles and checked 72 page/asset targets without failures.
 - The other 13 articles' header, hero and prose HTML remain unchanged. All images and the three scientific reference entries remain unchanged. Robots and sitemap output are byte-identical to the prior export: 24 sitemap URLs, five released articles, nine protected drafts.
 - These are local export checks. Prior managed-proxy CONNECT 403 failures still prevent independent live-price, referral-redirect and production-deployment verification; no online success is asserted.
+
+
+## Owner-supplied overview image replacement (2026-11-13)
+
+The owner supplied `MEGELIN LED面颈面罩产品概览.zip`, containing a 1536×1024 PNG product-overview graphic, and explicitly requested it replace the typographic white-review cover and the corresponding listing-card image. The original graphic is converted losslessly to `/images/megelin-white-led-face-neck-mask-overview.webp` with unchanged pixels and aspect ratio. No image generation, Amazon download, cropping, label change or product-specification verification is involved.
+
+The existing article's shared heroImage/heroAlt and intrinsic dimensions are updated, so its article hero, listing/related cards and Open Graph image use this overview. Existing article-scoped contain styling is retargeted to the new path. The one hero-description sentence is corrected to describe an owner-supplied editorial overview rather than a text-only cover. This does not authenticate official manufacturer photography or establish independently measured specifications.
+
+The three scientific illustrations, body sections, FAQs, citations, purchase URLs, price, author/reviewer information, publication date (2026-11-12) and indexing state remain unchanged. The previous cover file is retained for rollback. The homepage layout and other articles are unchanged.
+
+Validation for the overview replacement: MDX/YAML, TypeScript, production static build, indexing regression and local sitemap checks pass. Chromium checks at 390/768/1024/1440 px confirm the new hero and the /reviews, /topics/led-masks, /beauty-tech and /skincare cards use the new WebP with contain behavior and no page overflow. Image responses have image/webp MIME and the expected original dimensions; lossless pixel equality with the uploaded PNG is confirmed. The image is 1,001,016 bytes versus the PNG's 1,538,456 bytes (34.9% smaller).
+
+Other 14 articles, the homepage main content, robots and sitemap output remain unchanged. Eight FAQs, four references, both commercial links, the three scientific illustrations, publication date and index/follow state are preserved. Only the cover metadata, its scoped selectors and the necessary hero-description sentence changed in the article. Open Graph and Article image data now use the new path. Browser tracking requests were intercepted locally; this is not a new live tracking or affiliate-redirect verification.
