@@ -15,4 +15,16 @@ export function getArticles():Article[] {
  });
 }
 export const articleUrl=(a:Article)=>`/${a.section}/${a.slug}`;
+// Hide these unfinished entries from discovery while retaining their MDX,
+// direct draft routes and existing indexing protection for editorial work.
+const unlistedArticleSlugs = new Set([
+ 'omnilux-contour-face',
+ 'currentbody-series-2',
+ 'solawave-wrinkle-retreat-pro',
+ 'shark-cryoglow',
+ 'omnilux-vs-currentbody',
+ 'omnilux-vs-solawave',
+ 'omnilux-vs-solawave-vs-shark',
+]);
+export const isArticleListed=(article:Pick<Article,'slug'>)=>!unlistedArticleSlugs.has(article.slug);
 export const headingId=(s:string)=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
