@@ -100,3 +100,36 @@ All 15 MDX/YAML articles, TypeScript, the production static build, editorial gua
 Four-viewport Chromium checks pass at 390/768/1024/1440 px. All three supplied WebPs retain their original bytes and dimensions. The three affiliate buttons open a new tab with the approved destination and required rel attributes. Existing site regression visits/refreshed all 15 articles and checked 76 page/asset targets without failures. The other 14 articles and previous homepage content remain unchanged except for the new card. Global CSS, GTM, robots, SEO helpers and dependencies are untouched.
 
 Browser Google/affiliate responses were intercepted locally for deterministic QA; actual Google delivery and the real affiliate redirect were not verified. Source verification remains incomplete and is disclosed; owner authorization is not scientific verification. These results establish the export, not a successful Cloudflare deployment. Final commit/push and deployment observations are recorded separately in the release report.
+
+## Black-variant landing-page decision support (2026-11-16)
+
+At the owner's request, the Black review now uses the same article-level decision-support configuration already deployed for the White review. No shared application component, layout, global CSS, dependency, image, tracking configuration, privacy page, robots or sitemap implementation is changed in this update.
+
+### Changes
+
+- Bold disclosure appears directly below H1, before product imagery and the purchase action. The first CTA uses the existing after-title placement and is fully within the 390×844 phone view; all four commercial buttons retain https://pboost.me/y6CYOckC, target=_blank and sponsored/nofollow/noopener.
+- A plain-language summary presents seller-listed appeal, practical tradeoffs and Black-model manual/eye-protection/photosensitivity checks. It does not borrow a manufacturer charging prohibition from the White model; charging and operating permissions require the exact Black instructions.
+- Specifications, the original detailed clinical comparison/source discussion, and optical-parameter explanations are preserved in three native closed-by-default details blocks. All numerical source qualifiers, research image captions and scientific limitations remain.
+- Who This Is For now separates potential buying priorities from reasons to consider another option or seek advice. The old `#who-might-consider-this-product` anchor is preserved as an alias, and the new summary links to `#who-this-is-for`.
+- A new Price and Value section provides a variant-specific price-check action and buying checks without inventing a current numeric quote. It does not reuse the White screenshot price or the White review count.
+- The buyer-feedback section states that actual ASIN-matched review texts have not been retrieved or analyzed. No customer praise, complaint, review count, rating or testimonial is fabricated. Existing network restrictions that blocked the earlier Amazon source lookup remain; the denied host was not repeatedly retried for this task. A true Black-ASIN sentiment summary needs source excerpts.
+- The compact comparison uses supported White/Black seller-claim context and a generic face-only buying format, rather than invented competitor-brand prices or warranties. It identifies the variants as separate products and does not convert the White record into a Black quote.
+- The verdict now offers conditional shortlisting while retaining the lack of independently established exact-model efficacy, no hands-on testing, no product score and all safety limitations. Author method text and the existing About team link are clearer, without invented credentials or a scientific reviewer.
+- Existing global footer Privacy Policy / Terms / Contact links are verified rather than duplicated. The White review's recent factual privacy/GTM correction already applies site-wide; this task does not alter it or legal owner placeholders.
+
+### Validation
+
+All 15 MDX/YAML files compile. TypeScript, production static build, editorial guards, indexing and sitemap checks pass. The full-site suite visits/refreshed 15 articles and checks 76 page/asset targets with no failures. Chromium tests at 390/768/1024/1440 px verify four correctly attributed new-tab links, three keyboard-operable closed technical sections, six FAQs, seven original reference entries, all three unchanged WebPs, preserved legacy anchor, legal footer links and no overflow. The first phone CTA begins at approximately 754 px and fits a 390×844 initial viewport.
+
+The White review and other 13 articles have unchanged rendered headers, heroes and prose; all images, homepage content, robots and sitemap bytes remain unchanged. Sitemap remains 25 URLs with six published articles and nine protected drafts. The Black article retains its actual published date 2026-11-13, draft=false, noindex=false and no invented updated/review date. Reference objects, FAQ data, scientific verification states, hero/alt/caption and image dimensions are unchanged.
+
+GTM and affiliate responses are intercepted locally for browser QA; real redirects, purchase conversions and ad-account results are not claimed verified. No improvements in Google Ads quality score, approval or conversion rate are asserted as measured results. Deployment is confirmed separately through Cloudflare's official GitHub check after the normal main push.
+
+
+### Owner price clarification before commit (2026-11-16)
+
+The owner expressly clarified: “黑色价格也是US$362.70”. The Black review now displays **Reference price: US$362.70** in the title-area action, plain-language summary, buying filter, Price and Value and Black comparison row. Source is the owner's Black-variant report received on 2026-11-16; no live retailer fetch, screenshot capture timestamp or independent current-price verification is invented. The date in the price paragraph is the report receipt date, not a claim about when Amazon was observed.
+
+This clarification supersedes the earlier preparation's absence of a supplied numeric Black price. It is not an automatic transfer of the White screenshot, review count or testimonials. Final checkout qualification, Black ASIN B0CPXZ33M8, seller/variant checks, source limitations, the exact Black affiliate URL and all scientific/publication fields are retained.
+
+Final validation after the owner's Black-price clarification also passes: MDX/YAML, TypeScript, production static build, indexing/editorial guards, sitemap and all four responsive browser runs. The US$362.70 reference is owner-attributed and Black-ASIN-matched; the first 390 px CTA now begins at approximately 723 px and remains wholly inside the 390×844 phone viewport. Six FAQs, seven reference records, source verification states, all three WebPs, original publication/indexing data and the other 14 articles remain unchanged. No White review count or customer testimonial is transferred.
