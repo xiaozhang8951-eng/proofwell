@@ -25,3 +25,9 @@ export function ArticlePurchaseAction({ link }: { link: ArticlePurchaseLink }) {
     {link.priceNote&&<p style={{fontSize:11,lineHeight:1.7,marginTop:10}}>{link.priceNote}</p>}
   </div>;
 }
+
+export function ArticlePurchaseActions({ links }: { links: ArticlePurchaseLink[] }) {
+  return <div className="pros-cons" style={{textAlign:'left'}}>
+    {links.map(link=><ArticlePurchaseAction key={link.href} link={link}/>)}
+  </div>;
+}
