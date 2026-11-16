@@ -114,3 +114,35 @@ The three scientific illustrations, body sections, FAQs, citations, purchase URL
 Validation for the overview replacement: MDX/YAML, TypeScript, production static build, indexing regression and local sitemap checks pass. Chromium checks at 390/768/1024/1440 px confirm the new hero and the /reviews, /topics/led-masks, /beauty-tech and /skincare cards use the new WebP with contain behavior and no page overflow. Image responses have image/webp MIME and the expected original dimensions; lossless pixel equality with the uploaded PNG is confirmed. The image is 1,001,016 bytes versus the PNG's 1,538,456 bytes (34.9% smaller).
 
 Other 14 articles, the homepage main content, robots and sitemap output remain unchanged. Eight FAQs, four references, both commercial links, the three scientific illustrations, publication date and index/follow state are preserved. Only the cover metadata, its scoped selectors and the necessary hero-description sentence changed in the article. Open Graph and Article image data now use the new path. Browser tracking requests were intercepted locally; this is not a new live tracking or affiliate-redirect verification.
+
+## Landing-page decision support update (2026-11-16)
+
+The owner requested P0/P1/P2 improvements for paid-traffic readability and buying decisions. Existing code already provided a title-area button, author biography/anchor, commercial disclosures, and global Privacy Policy / Terms / Contact footer links. Those were inspected before editing; the footer is retained rather than duplicated.
+
+### Implemented
+
+- A prominent bold affiliate disclosure appears directly after the article H1, before the price, CTA, product imagery and body content. It identifies this as a desk-based review, without claiming hands-on testing or that a commission is a verified “small” amount.
+- The white review opts into an article-level after-title purchase action, with **Recorded listing price: US$362.70**, a screenshot/not-live qualifier, the exact approved URL, new-tab behavior and sponsored/nofollow/noopener attributes. There are three styled Check Latest Price on Amazon buttons (title area, early content, Price and Value) and the preserved final text link.
+- A plain-language summary presents the advertised appeal, budget tradeoff, evidence boundary, charging/adapter restriction, eye-protection/manual checks and photosensitivity/medication precautions. Full-review reading time is explicitly distinguished from the quick summary.
+- Full specifications, catalog interpretation and optical detail are preserved in three native details/summary blocks, closed by default. Original data, limitations and references remain available; keyboard activation works.
+- Who This Is For now separates purchase priorities from reasons to consider another option or seek advice first. Budget examples are reader budgets, not invented competitor prices. The seller schedule is not promoted to a medical prescription or guaranteed timeline.
+- The verdict offers conditional shortlisting and buying checks while preserving the lack of exact-model efficacy evidence, all safety limitations and no product score/clinical seal.
+- The author biography explains the source method, limits and editorial role without invented credentials. The byline and biography link to the existing `/about#people-and-accountability` section; no fictitious individual profile or scientific reviewer is added.
+- A compact comparison covers the documented white/black variants and a generic face-only purchasing option. It explicitly is not an independently tested cross-brand ranking. Unknown current prices/materials/warranty terms remain unknown.
+- Privacy text is corrected to acknowledge the GTM loader already installed in the root layout. Actual enabled tags, cookies, retention and consent require owner confirmation; no GA4/Ads configuration, lawful basis or collected consent is invented. Privacy draftUpdated is the actual text-edit date, not an approved effective date. Terms remains an unfinished noindex page.
+
+### Source limitations and deferred requests
+
+A fresh Amazon lookup for ASIN B0CPY3NKWB failed inside the sandbox because the inherited proxy could not be reached. The same authorized request outside the sandbox returned managed-proxy CONNECT 403 / curl 56 / HTTP 000. No retailer content, current price, review text or live destination was retrieved; no network controls were bypassed.
+
+The screenshot's 585-review count is identified as a captured, undated count rather than current social proof. No review texts were supplied or analyzed, so no positive/negative sentiment, battery complaint, comfort testimonial or review-score summary is fabricated. The new buyer-feedback section explicitly explains that limit and provides reading criteria. A genuine review synthesis requires ASIN/variant-matched source excerpts.
+
+A fully sourced competitor-brand table likewise requires current exact-model price, construction, coverage and warranty records. Unfinished review drafts elsewhere on the site are not treated as verified source material. The current comparison is limited to supported seller claims and buying-format questions. These are source-dependent remaining tasks, not claims of completed independent verification.
+
+### Validation and scope
+
+All 15 MDX/YAML articles compile. TypeScript, production static build, editorial guards, indexing and sitemap checks pass. Full-site regression visited/refreshed all 15 articles and checked 76 page/asset targets. Chromium at 390/768/1024/1440 px verifies prominent disclosure, recorded-price qualification, four correctly attributed commercial links, three buttons, four locally intercepted popup clicks, accordion default/keyboard behavior, safety summary, footer links and no overflow. At 390 px the first button begins at approximately 723 px and fits within a 390×844 phone viewport.
+
+The previous 14 articles' rendered header, hero and prose remain unchanged; all existing image bytes and the homepage layout are preserved. White-review scientific reference objects, eight FAQs, evidenceSnapshot=false/hidden state, publication date, hero and indexing metadata are unchanged. Robots and sitemap are byte-identical to baseline: 25 sitemap URLs, six published articles and nine protected drafts. `/terms` remains noindex/nofollow. No global CSS, dependencies, GTM loader, robots/sitemap logic, Google Ads configuration, custom tracking or conversion events are changed.
+
+GTM and commercial responses were intercepted locally during browser QA, so those checks are not independent verification of the actual retailer redirect, live analytics, purchase conversions or ad approval. No causal improvement in conversion rate, Google Ads quality score, FTC compliance or advertising eligibility is claimed. Privacy and legal owner/controller details remain for owner review.

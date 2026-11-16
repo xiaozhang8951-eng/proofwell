@@ -21,7 +21,7 @@ export type EvidenceSnapshotData = {
   limitations?: string[];
 };
 export type FaqItem = { question: string; answer: string };
-export type AuthorInfo = { kind?: 'person' | 'organization'; credentials?: string; bio?: string };
+export type AuthorInfo = { kind?: 'person' | 'organization'; credentials?: string; bio?: string; profileUrl?: string };
 export type ScientificReview = {
   status: 'pending' | 'completed';
   reviewer?: { name: string; credentials?: string; bio?: string };

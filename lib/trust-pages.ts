@@ -175,7 +175,7 @@ export const trustPages: Record<string, InfoPage> = {
     "seoTitle": "Privacy Policy — Information, Cookies & Your Choices",
     "eyebrow": "PRIVACY POLICY · OWNER REVIEW PENDING",
     "description": "What the ProofWell website currently does with visitor information, how email and external links work, and which privacy details still require owner confirmation.",
-    "draftUpdated": "2026-11-05",
+    "draftUpdated": "2026-11-16",
     "sections": [
       {
         "title": "Status of this draft",
@@ -188,17 +188,17 @@ export const trustPages: Record<string, InfoPage> = {
       },
       {
         "title": "Technical and analytics information",
-        "text": "A hosting service may receive technical request information such as an IP address, browser details, requested URL, and request time when it delivers a page. No client-side analytics or advertising service is configured in this repository. Owner confirmation is required for the actual hosting provider, server or platform logs, analytics enabled outside the code, information collected, and the purpose and legal basis for processing.",
+        "text": "A hosting service may receive technical request information such as an IP address, browser details, requested URL, and request time when it delivers a page. The website loads Google Tag Manager to manage website tags. Which analytics or advertising tags are enabled, what they collect, and their purpose, retention and legal basis require confirmation from the site owner and the published container configuration.",
         "ownerInput": true
       },
       {
         "title": "Cookies and similar technologies",
-        "text": "The current website code does not set tracking cookies or persist form entries in browser storage. Interactive search, navigation, and form-preview state are held in memory while the page is open. Hosting or future third-party integrations may behave differently. Any actual cookies, storage, consent controls, and providers must be documented before activation.",
+        "text": "Interactive search, navigation and form-preview state are held in memory while the page is open; the preview forms do not save submissions. Google Tag Manager and tags enabled through it may involve third-party requests, cookies or other storage, depending on the configuration. Actual cookies, providers, retention and consent controls need an owner audit; loading a tag manager is not evidence that visitor consent has been obtained.",
         "ownerInput": true
       },
       {
         "title": "Third-party services and external links",
-        "text": "Research references and other external links take you to sites with their own privacy practices. Future analytics, advertising, newsletter, or form services must be documented if connected; no specific such service is claimed to be active. The MEGELIN review contains an outbound PartnerBoost affiliate link at pboost.me. Following it takes you to third-party services that may process referral information under their own notices. Their destination, tracking and retention practices have not been independently verified. No PartnerBoost script or tracking cookie is added by this website code.",
+        "text": "Google Tag Manager and services enabled through it have their own privacy practices, as do websites reached through research references and other external links. Additional analytics, advertising, newsletter or form services and their data practices must be documented when connected. The MEGELIN review contains an outbound PartnerBoost affiliate link at pboost.me. Following it takes you to third-party services that may process referral information under their own notices. Their destination, tracking and retention practices have not been independently verified. No PartnerBoost script or tracking cookie is added by this website code.",
         "links": [
           {
             "label": "Affiliate disclosure",

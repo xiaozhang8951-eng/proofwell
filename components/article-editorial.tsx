@@ -35,7 +35,7 @@ export function EditorialSummary({ article }: { article: Article }) {
     }}/>
     <span className="eyebrow">REVIEW STATUS</span>
     {assessment ? <><EvidenceLevel level={assessment.level}/><p>{assessment.summary}</p></> :
-      <p><strong>{article.evidenceSnapshot?.verified ? 'Evidence grade not assigned.' : 'Evidence not yet assessed.'}</strong> {article.evidenceSnapshot?.verified ? 'See the snapshot for documented findings and uncertainty.' : publishedArticle ? 'This article has no assigned evidence grade or product recommendation.' : 'This draft has no assigned evidence grade or product recommendation.'}</p>}
+      article.editorialStatusNote ? <p>{article.editorialStatusNote}</p> : <p><strong>{article.evidenceSnapshot?.verified ? 'Evidence grade not assigned.' : 'Evidence not yet assessed.'}</strong> {article.evidenceSnapshot?.verified ? 'See the snapshot for documented findings and uncertainty.' : publishedArticle ? 'This article has no assigned evidence grade or product recommendation.' : 'This draft has no assigned evidence grade or product recommendation.'}</p>}
     {!completedReview(article.scientificReview) && <p className="review-pending">{publishedArticle ? 'Scientific review has not been completed for this article.' : 'Scientific review has not been completed for this draft.'}</p>}
     <p>Research findings, proposed mechanisms, manufacturer claims, and editorial interpretation are evaluated separately. <a href="/editorial-standards">Our editorial standards</a></p>
 
@@ -58,6 +58,7 @@ export function AuthorInformation({ article }: { article: Article }) {
     <h3>{article.author}</h3>
     {article.authorInfo?.credentials && <p>{article.authorInfo.credentials}</p>}
     <p>{article.authorInfo?.bio || 'Author biography and credentials have not yet been supplied by the site owner.'}</p>
+    {article.authorInfo?.profileUrl && <p><a href={article.authorInfo.profileUrl}>About ProofWell Editorial ↗</a></p>}
     {review && <div className="reviewer-bio"><span className="eyebrow">SCIENTIFIC REVIEWER</span><h3>{review.reviewer.name}</h3>
       {review.reviewer.credentials && <p>{review.reviewer.credentials}</p>}{review.reviewer.bio && <p>{review.reviewer.bio}</p>}
     </div>}
