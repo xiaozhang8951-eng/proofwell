@@ -18,6 +18,7 @@ assert.ok(['127.0.0.1', 'localhost'].includes(base.hostname), 'Use a local stati
 const files = directory => fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry =>
   entry.isDirectory() ? files(path.join(directory, entry.name)) : [path.join(directory, entry.name)]);
 const articles = getArticles();
+const expectedReviewPaths = articles.filter(article => article.section === 'reviews' && !hiddenPaths.has(articleUrl(article))).map(articleUrl).sort();
 for (const route of hiddenPaths) {
   assert.ok(articles.some(article => articleUrl(article) === route), `Original MDX missing: ${route}`);
   assert.ok(fs.existsSync(`out${route}.html`), `Original draft export missing: ${route}`);
@@ -61,12 +62,10 @@ try {
     await page.evaluate(() => document.fonts.ready);
     const reviews = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Device Reviews', exact: true }) });
     const comparisons = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Compare Before You Buy', exact: true }) });
-    await expect(reviews.locator('.article-card')).toHaveCount(3);
+    await expect(reviews.locator('.article-card')).toHaveCount(expectedReviewPaths.length);
     await expect(comparisons.locator('.article-card')).toHaveCount(1);
     const reviewLinks = await reviews.locator('.article-card').evaluateAll(cards => cards.map(card => card.getAttribute('href')).sort());
-    assert.deepEqual(reviewLinks, [
-      '/reviews/megelin-led-face-neck-mask', '/reviews/megelin-white-led-face-neck-mask', '/reviews/ulike-reglow-led-face-mask',
-    ]);
+    assert.deepEqual(reviewLinks, expectedReviewPaths);
     await expect(comparisons.locator('.article-card')).toHaveAttribute('href', '/comparisons/ulike-reglow-vs-megelin-white-led-mask');
     for (const image of await reviews.locator('img').all()) {
       await image.scrollIntoViewIfNeeded();
@@ -86,7 +85,7 @@ try {
     await expect(page.getByRole('dialog').getByRole('link')).toHaveCount(3);
     await page.getByRole('button', { name: 'Close search' }).click();
 
-    for (const [route, count] of [['/reviews', 3], ['/comparisons', 1]]) {
+    for (const [route, count] of [['/reviews', expectedReviewPaths.length], ['/comparisons', 1]]) {
       await page.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
       await expect(page.locator('.landing-page .article-card')).toHaveCount(count);
       await expect(page.locator('.collection-label')).toContainText(`${count} ${count === 1 ? 'article' : 'articles'}`);
@@ -96,7 +95,7 @@ try {
   assert.deepEqual(failures, []);
   console.log(JSON.stringify({
     exportedHtmlChecked: htmlFiles.length, hiddenEntries: hiddenPaths.size,
-    homepageReviews: 3, homepageComparisons: 1, searchAndCollections: 'passed',
+    homepageReviews: expectedReviewPaths.length, homepageComparisons: 1, searchAndCollections: 'passed',
     draftRoutesPreservedAndNoindex: true, hiddenEntriesAbsentFromSitemap: true,
     viewports: [390, 768, 1440], failures,
   }, null, 2));
