@@ -18,7 +18,10 @@ export function ReviewQuickSummary({ summary }: { summary: ReviewQuickSummaryDat
 export function ArticlePurchaseAction({ link }: { link: ArticlePurchaseLink }) {
   return <div className="article-purchase-link" style={{marginTop:24}}>
     {link.priceLabel&&<p className="review-price-label" style={{fontSize:18,margin:'0 0 12px'}}><strong>{link.priceLabel}</strong></p>}
-    <CommercialLink href={link.href} target={link.target} disclosure={link.disclosure}><span className="button primary">{link.label}</span></CommercialLink>
+    {link.pending ? <>
+      <button type="button" className="button primary" disabled style={{opacity:0.65,cursor:'not-allowed'}}>{link.label}</button>
+      <p style={{fontSize:11,lineHeight:1.7,marginTop:10}}>Purchase link not active — awaiting an approved affiliate destination.</p>
+    </> : <CommercialLink href={link.href} target={link.target} disclosure={link.disclosure}><span className="button primary">{link.label}</span></CommercialLink>}
     {link.priceNote&&<p style={{fontSize:11,lineHeight:1.7,marginTop:10}}>{link.priceNote}</p>}
   </div>;
 }
