@@ -6,3 +6,7 @@ out/
 *.tsbuildinfo
 screenshots/
 .vercel/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.wrangler/

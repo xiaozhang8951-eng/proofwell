@@ -1,0 +1,8 @@
+# Cloudflare Pages Function bindings ONLY. No service-role key is needed here.
+# Copy to an ignored .dev.vars only for approved local/staging configuration.
+COMMUNITY_ENABLED=false
+COMMUNITY_ALLOWED_ORIGINS=https://proofwelllife.com
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# Shared server-side HMAC key in Pages and Supabase. Never NEXT_PUBLIC_.
+COMMUNITY_GATEWAY_SECRET=

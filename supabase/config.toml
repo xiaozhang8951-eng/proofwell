@@ -1,0 +1,6 @@
+project_id = "proofwell-community"
+
+[functions.community]
+# Requests are verified explicitly with Auth /user in the handler. GET is public.
+# Do not rely on the gateway's legacy JWT check for new publishable keys.
+verify_jwt = false

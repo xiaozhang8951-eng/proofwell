@@ -175,50 +175,84 @@ export const trustPages: Record<string, InfoPage> = {
     "seoTitle": "Privacy Policy — Information, Cookies & Your Choices",
     "eyebrow": "PRIVACY POLICY · OWNER REVIEW PENDING",
     "description": "What the ProofWell website currently does with visitor information, how email and external links work, and which privacy details still require owner confirmation.",
-    "draftUpdated": "2026-11-16",
+    "draftUpdated": "2026-11-19",
     "sections": [
       {
-        "title": "Status of this draft",
-        "text": "This is a readable description of the current website code and a policy draft for owner review. It is not legal advice or a claim of compliance with any particular privacy law. The legal owner or data controller, applicable jurisdiction, and effective date have not yet been confirmed.",
+        "title": "Status and operator",
+        "text": "This policy remains a draft for owner review; Community is disabled in this development delivery. ProofWell is a public-facing brand operated by an individual, not a claimed registered company. The operator’s full legal identity, policy effective date and any legally required additional details remain pending. Privacy contact: ProofWell Editorial Team — proofwelllife@gmail.com. This draft is not legal advice or a certification of compliance.",
+        "ownerInput": true
+      },
+      {
+        "title": "Visitors and applicable rights",
+        "text": "ProofWell serves readers in the United States, United Kingdom, Canada and Australia and allows global access. Applicable privacy rights and obligations depend on the visitor’s location and circumstances; no single jurisdiction is asserted to govern everyone. The operator must confirm lawful bases, local notices, age eligibility, transfers and complaint routes before enabling Community.",
         "ownerInput": true
       },
       {
         "title": "Information you choose to provide",
-        "text": "You may contact the editorial team by email. Messages may contain your name, email address, message, and any details you choose to include. Email is handled by the relevant mail providers rather than by the static website. The contact and newsletter forms are frontend previews: they do not transmit or save submissions, and subscriptions are not active. Please avoid sending sensitive personal or medical information."
+        "text": "Email inquiries are handled by the relevant mail providers. Contact and newsletter forms remain frontend previews and do not save or transmit submissions. If Community is later enabled, we process the article reference, nickname, comment text, vote or helpfulness response, optional question or suggestion, moderation status and timestamps needed to operate it. Avoid contact details, medical records or other sensitive information in submissions. We do not require a public profile or an email address for a guest session."
       },
       {
-        "title": "Technical and analytics information",
-        "text": "A hosting service may receive technical request information such as an IP address, browser details, requested URL, and request time when it delivers a page. The website loads Google Tag Manager to manage website tags. Which analytics or advertising tags are enabled, what they collect, and their purpose, retention and legal basis require confirmation from the site owner and the published container configuration.",
+        "title": "Public comments and private suggestions",
+        "text": "Comments are pending and not public until approved. Approved nicknames, comment text and times are visible to readers and may be copied or captured by others; moderation is not scientific verification. Hidden comments remain private until deleted; hiding an approved comment does not classify it as spam. Questions and topic suggestions are private to authorized editors. Poll and helpfulness displays show informal aggregate responses, not clinical evidence or unique-person counts. No separate indexable comment pages are created; this is not a promise that public text cannot be read or saved by search engines."
+      },
+      {
+        "title": "Guest sessions and browser storage",
+        "text": "Supabase Auth issues a pseudonymous user identifier and verifies session credentials on the server. This is not fully anonymous identity, and it does not prove one account equals one person. The SDK persists session credentials in browser storage under proofwell-community-session to restore a guest session. Clearing storage or switching devices can lose that association; server-side limits also apply. Session persistence, expiry, account inactivity and deletion settings must be reviewed against the actual Supabase project. The publication acknowledgement checkbox is not analytics consent.",
         "ownerInput": true
       },
       {
-        "title": "Cookies and similar technologies",
-        "text": "Interactive search, navigation and form-preview state are held in memory while the page is open; the preview forms do not save submissions. Google Tag Manager and tags enabled through it may involve third-party requests, cookies or other storage, depending on the configuration. Actual cookies, providers, retention and consent controls need an owner audit; loading a tag manager is not evidence that visitor consent has been obtained.",
+        "title": "Security processing and when requests occur",
+        "text": "When Community is enabled, approaching the article’s interaction section loads public results and Cloudflare Turnstile; these providers may receive technical request data before a reader starts a guest session. Auth is contacted when starting or restoring a session. Submissions require fresh human verification. The Pages gateway receives a Cloudflare-controlled client IP, authenticates it to the backend, and the backend derives keyed, rotating IP-based abuse counters. Application community tables do not store raw IPs, but hosting, Auth, CAPTCHA and other providers may receive or log IPs, browser details and request times. A keyed hash is not a guarantee of legal anonymization."
+      },
+      {
+        "title": "Purpose and data minimization",
+        "text": "Community data is used to operate discussion, moderate content, count feedback, consider editorial topics, respond to rights requests and prevent abuse. We do not sell Community data or use it for advertising profiles. Authorized moderators can view private queues and export operational data; exports require restricted storage and the same retention/deletion controls. Any legal basis or exception must be reviewed for the applicable visitor and processing purpose.",
         "ownerInput": true
       },
       {
-        "title": "Third-party services and external links",
-        "text": "Google Tag Manager and services enabled through it have their own privacy practices, as do websites reached through research references and other external links. Additional analytics, advertising, newsletter or form services and their data practices must be documented when connected. The MEGELIN review contains an outbound PartnerBoost affiliate link at pboost.me. Following it takes you to third-party services that may process referral information under their own notices. Their destination, tracking and retention practices have not been independently verified. No PartnerBoost script or tracking cookie is added by this website code.",
+        "title": "Retention and deletion",
+        "text": "The approved operating limits below are a preparation policy, not proof that a production cleanup job or provider settings have been configured. Scheduled deletion, monitoring, backup expiry and third-party logs must be verified before launch. Expiry alone does not physically delete a database row.",
+        "items": [
+          "Approved comments: retained until a valid user deletion request or user deletion is processed. No automatic age-based deletion of normal approved comments is added.",
+          "Pending and explicitly classified spam comments: no more than 90 days from submission. Hiding a normal approved comment does not classify it as spam or start an automatic deletion clock. Normal hidden comments and historical hidden records of unknown classification require individual review.",
+          "Raw votes, helpfulness responses and private topic suggestions: no more than 90 days from submission. Polls remain open; once a guest’s raw record expires and is removed, another response is permitted. Aggregate response counts may therefore include repeat participants.",
+          "Expired vote and helpfulness rows are replaced only by real counts per poll option or article, without user IDs, IPs, raw response times or text. Long-term retention requires an assessment that these aggregates are genuinely anonymous; sparse groups may need suppression or deletion.",
+          "IP and security logs: no more than 30 days. Application abuse-counter rows expire sooner (two days) and gateway nonce rows after five minutes, but deletion requires writes or an approved maintenance schedule. Provider log and backup retention remain pending confirmation.",
+          "Administrator action logs: 180 days. No comment bodies, passwords or CAPTCHA tokens should be copied into audit records.",
+          "Anonymous Auth account lifecycle, email requests, provider backups and exported files require an approved schedule and verified provider controls. Deleting an Auth user can cascade into their live community records; do not bulk-delete accounts as a substitute for scoped retention."
+        ],
+        "ownerInput": true
+      },
+      {
+        "title": "Analytics and consent",
+        "text": "The existing website loads Google Tag Manager; its published tags, Google Analytics/Ads destinations, automatic form collection, storage and consent settings still require an account-level audit. No new Google tag is installed for Community. Community success events are separately disabled by default and are emitted only after an approved consent-management integration explicitly grants analytics permission. Withdrawal blocks later Community events; past actions are not queued for replay. These events contain only an article slug and interaction type, not nicknames, text, email, IPs, user IDs or tokens. This separate gate does not control all existing Google tags or constitute a complete site-wide consent system.",
+        "ownerInput": true
+      },
+      {
+        "title": "Providers and international processing",
+        "text": "If enabled, Community uses Supabase for Auth/database/Edge processing and Cloudflare Pages/Turnstile for hosting, gateway and abuse protection. Existing Google and affiliate services have their own practices. Supabase’s actual storage region, contracts, subprocessors, cross-border safeguards, provider log retention and backup controls remain pending verification. Following an affiliate link may send referral data to the external service under its own notice; no claim is made that external sites follow this policy.",
         "links": [
           {
             "label": "Affiliate disclosure",
             "href": "/affiliate-disclosure"
           }
-        ]
-      },
-      {
-        "title": "Retention, access, and security",
-        "text": "Owner confirmation is required for who can access editorial email, how long messages and hosting logs are retained, deletion practices, service-provider arrangements, international transfers, and applicable security measures. The preview forms do not create a site database of submissions. No guarantee of absolute security is made.",
+        ],
         "ownerInput": true
       },
       {
-        "title": "Privacy rights and requests",
-        "text": "Depending on your location and the law that applies, you may have rights to request access, correction, deletion, restriction, or objection. Contact the editorial team to ask about information handled in relation to this website. The applicable rights, request procedure, identity-verification process, complaint route, and legal deadlines require owner review; this draft does not promise a specific outcome.",
+        "title": "Privacy rights and removal requests",
+        "text": "To request comment removal, access, correction or personal-data deletion, email proofwelllife@gmail.com. Approved comments have a Request removal link that opens your email application with the article and comment reference; it sends nothing automatically. For a pending comment or private suggestion, identify the article and approximate submission time without resending sensitive content. A public comment ID or nickname alone is not proof of ownership. We will seek only proportionate information needed to locate and verify a request; never send a password, access token, refresh token or medical record. The operator must confirm response deadlines, appeal/complaint routes and backup handling under applicable law. Public copies held by others may not be removable by ProofWell.",
+        "links": [
+          {
+            "label": "Privacy contact",
+            "href": "mailto:proofwelllife@gmail.com"
+          }
+        ],
         "ownerInput": true
       },
       {
-        "title": "Changes to this policy",
-        "text": "The draft update date records this website revision, not a confirmed legal effective date. The owner must approve an effective date and revise this policy when actual data handling, providers, or applicable requirements change.",
+        "title": "Security, review and effective date",
+        "text": "Access is restricted through server authentication, administrator allowlisting, moderation and database Row Level Security; no system guarantees absolute security. The draft update date records this document revision, not a legal effective date, completed legal review or launch authorization. Unknown controller details, retention execution, storage region, consent configuration and legal requirements remain launch blockers.",
         "ownerInput": true
       }
     ],
@@ -227,6 +261,7 @@ export const trustPages: Record<string, InfoPage> = {
       "purpose": "For privacy questions or requests relating to ProofWell, contact:"
     }
   },
+
   "contact": {
     "title": "Good questions welcome.",
     "seoTitle": "Contact ProofWell — Editorial, Corrections & Partnerships",
