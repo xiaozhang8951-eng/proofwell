@@ -20,7 +20,7 @@ assert.equal(isPreviewBuild({ CF_PAGES: '1' }), true);
 assert.equal(isPreviewBuild({ NODE_ENV: 'development' }), true);
 assert.deepEqual(pageRobots(false), { index: false, follow: false });
 const articles = getArticles();
-const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm', 'irradiance-vs-fluence', 'red-vs-near-infrared', 'megelin-white-led-face-neck-mask', 'megelin-led-face-neck-mask', 'ulike-reglow-led-face-mask', 'ulike-reglow-vs-megelin-white-led-mask', 'amiro-5-in-1-light-therapy-mask', 'does-red-light-therapy-work'];
+const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm', 'irradiance-vs-fluence', 'red-vs-near-infrared', 'megelin-white-led-face-neck-mask', 'megelin-led-face-neck-mask', 'ulike-reglow-led-face-mask', 'ulike-reglow-vs-megelin-white-led-mask', 'amiro-5-in-1-light-therapy-mask', 'does-red-light-therapy-work', 'ulike-led-mask-comparison'];
 const releasedArticles = articles.filter(article => releasedSlugs.includes(article.slug));
 assert.deepEqual(releasedArticles.map(article => article.slug).sort(), [...releasedSlugs].sort());
 const protectedArticles = articles.filter(article => !releasedSlugs.includes(article.slug));
