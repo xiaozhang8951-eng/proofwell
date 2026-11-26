@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { ArticlePurchaseLink, ReviewQuickSummaryData } from '@/lib/content';
 import { CommercialLink } from './evidence';
 
@@ -17,6 +18,10 @@ export function ReviewQuickSummary({ summary }: { summary: ReviewQuickSummaryDat
 
 export function ArticlePurchaseAction({ link }: { link: ArticlePurchaseLink }) {
   return <div className="article-purchase-link" style={{marginTop:24}}>
+    {link.image&&<figure style={{margin:'0 0 16px'}}>
+      <Image src={link.image.src} alt={link.image.alt} width={link.image.width} height={link.image.height} sizes="(max-width: 1000px) 90vw, 30vw" style={{display:'block',width:'100%',height:260,objectFit:'contain'}}/>
+      {link.image.caption&&<figcaption style={{fontSize:10,lineHeight:1.6,marginTop:10}}>{link.image.caption}</figcaption>}
+    </figure>}
     {link.priceLabel&&<p className="review-price-label" style={{fontSize:18,margin:'0 0 12px'}}><strong>{link.priceLabel}</strong></p>}
     {link.pending ? <>
       <button type="button" className="button primary" disabled style={{opacity:0.65,cursor:'not-allowed'}}>{link.label}</button>
