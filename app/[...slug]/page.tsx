@@ -19,9 +19,9 @@ import {ArticlePurchaseAction,ArticlePurchaseActions,ReviewQuickSummary} from '@
 import {TrustPage} from '@/components/trust-page';
 import {BreadcrumbSchema,ArticleSchema} from '@/components/seo';
 import {pageMetadata} from '@/lib/metadata';
-import {getPublicPaths,getIndexablePaths,isPublishedArticle} from '@/lib/public-routes';
+import {getContentPaths,getIndexablePaths,isPublishedArticle} from '@/lib/public-routes';
 import {pageRobots} from '@/lib/indexing';
-export function generateStaticParams(){return getPublicPaths().filter(path=>path!=='/').map(path=>({slug:path.slice(1).split('/')}))}
+export function generateStaticParams(){return getContentPaths().map(path=>({slug:path.slice(1).split('/')}))}
 export const dynamicParams=false;
 export async function generateMetadata({params}:{params:Promise<{slug:string[]}>}):Promise<Metadata>{
  const {slug}=await params;const path='/'+slug.join('/');

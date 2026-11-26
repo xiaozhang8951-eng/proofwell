@@ -23,7 +23,7 @@ function load(file) {
       name.startsWith('.') ? load(path.resolve(path.dirname(file), name + '.ts')) : require(name) });
   return module.exports;
 }
-const { getPublicPaths, getIndexablePaths, isPublishedArticle } = load('lib/public-routes.ts');
+const { getPublicPaths, getContentPaths, getIndexablePaths, isPublishedArticle } = load('lib/public-routes.ts');
 const { getArticles, articleUrl } = load('lib/content.ts');
 const { resolveSiteOrigin } = load('lib/metadata.ts');
 const { default: sitemap } = load('app/sitemap.ts');
@@ -34,6 +34,10 @@ assert.equal(new Set(publicPaths).size, publicPaths.length, 'Duplicate public ro
 assert.equal(new Set(indexablePaths).size, indexablePaths.length, 'Duplicate indexable routes');
 assert.equal(new Set(getPublicPaths([...articles, articles[0]])).size, publicPaths.length);
 assert.ok(indexablePaths.every(route => publicPaths.includes(route)), 'Sitemap includes an unregistered route');
+assert.equal(publicPaths.filter(route => route === '/red-light-therapy').length, 1);
+assert.ok(indexablePaths.includes('/red-light-therapy'), 'Device hub must enter the sitemap');
+assert.ok(!getContentPaths().includes('/red-light-therapy'), 'Explicit page must not also be exported by the catch-all route');
+assert.ok(!getContentPaths().includes('/'));
 const article2 = articles.find(article => article.slug === 'how-led-masks-work');
 assert.ok(article2, 'Article 2 must exist');
 const releasedSlugs = ['how-led-masks-work', '633-vs-830-nm', 'irradiance-vs-fluence', 'red-vs-near-infrared', 'megelin-white-led-face-neck-mask', 'megelin-led-face-neck-mask', 'ulike-reglow-led-face-mask', 'ulike-reglow-vs-megelin-white-led-mask', 'amiro-5-in-1-light-therapy-mask', 'does-red-light-therapy-work', 'ulike-led-mask-comparison'];

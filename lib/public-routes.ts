@@ -4,11 +4,17 @@ import { categories, information } from './pages';
 import { topics } from './site';
 import { isEditorialDate } from './editorial';
 
-// The static route generator and sitemap use the same registered routes.
+// Explicit App Router pages share the sitemap registry, but not catch-all params.
+const standalonePaths = ['/red-light-therapy'];
+
 export function getPublicPaths(articles = getArticles()): string[] {
-  return [...new Set(['/', ...Object.keys(categories).map(slug => `/${slug}`),
+  return [...new Set(['/', ...standalonePaths, ...Object.keys(categories).map(slug => `/${slug}`),
     ...Object.keys(information).map(slug => `/${slug}`), '/topics',
     ...topics.map(([, slug]) => `/topics/${slug}`), ...articles.map(articleUrl)])];
+}
+
+export function getContentPaths(articles = getArticles()): string[] {
+  return getPublicPaths(articles).filter(path => path !== '/' && !standalonePaths.includes(path));
 }
 
 export function isPublishedArticle(article: Article, today = new Date().toISOString().slice(0, 10)) {
