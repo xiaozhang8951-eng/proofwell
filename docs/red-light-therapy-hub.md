@@ -76,7 +76,7 @@ Adding a catalog record automatically updates product counts, available brand/mo
 
 The page and initial catalog are static HTML, including source details and readable content without JavaScript. Client-side filters generate no new URLs, indexable parameter pages or backend requests. The hub has its own canonical/metadata, breadcrumbs, separate unordered ItemLists and FAQPage markup matching the visible FAQ text.
 
-Documented product identities use minimal Product nodes inside ItemLists. The unresolved four-mode listing uses Thing rather than asserting a confirmed product identity. There are no Offers, ratings or review scores in the schema because the source data does not support them. Product markup does not promise eligibility for a Google rich result.
+The multi-product hub uses ordinary ItemLists with ListItem names, card-anchor URLs, images and source-attributed feature descriptions. It emits no Product nodes: Google product snippets require an offer, review or aggregate rating, and the available sources do not support current offers or verified ratings. Supplied reference prices are not promoted to Offers to satisfy a validator. This page does not claim product rich-result eligibility; its breadcrumbs and visible FAQ markup remain unchanged. Any future Product markup belongs on a suitable individual-product page with supported required fields.
 
 Only this page imports the discovery client component and CSS module. Existing fonts, global styles and Google installation remain unchanged. No new analytics or cookie storage is introduced.
 

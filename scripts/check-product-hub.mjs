@@ -45,8 +45,21 @@ try {
     const lists = jsonld.filter(item => item['@type'] === 'ItemList');
     assert.equal(lists.length, 4); assert.deepEqual(lists.map(list => list.numberOfItems), [4, 3, 2, 1]);
     assert.ok(lists.every(list => list.itemListOrder.endsWith('ItemListUnordered')));
-    assert.equal(lists.flatMap(list => list.itemListElement).filter(entry => entry.item['@type'] === 'Product').length, 9);
-    assert.equal(lists.flatMap(list => list.itemListElement).filter(entry => entry.item['@type'] === 'Thing').length, 1);
+    const entries = lists.flatMap(list => list.itemListElement);
+    assert.equal(entries.length, therapyProducts.length);
+    assert.equal(new Set(entries.map(entry => entry.url)).size, therapyProducts.length);
+    for (const list of lists) assert.deepEqual(list.itemListElement.map(entry => entry.position), Array.from({ length: list.numberOfItems }, (_, i) => i + 1));
+    for (const entry of entries) {
+      assert.equal(entry['@type'], 'ListItem');
+      const product = therapyProducts.find(product => entry.url === `${canonical}#product-${product.id}`);
+      assert.ok(product, 'Every list entry links to a known product card');
+      assert.equal(entry.name, `${product.brand} ${product.productName}`);
+      assert.equal(entry.image, new URL(product.productImage.src, canonical).href);
+      const target = new URL(entry.url);
+      await expect(page.locator(target.hash)).toHaveCount(1);
+      await expect(page.locator(target.hash).locator('h4')).toHaveText(product.productName);
+    }
+    assert.ok(!JSON.stringify(lists).match(/"@type"\s*:\s*"(?:Product|Offer|AggregateRating|Review)"/), 'The hub must not emit incomplete Product rich-result markup');
     assert.ok(!JSON.stringify(lists).match(/"(?:offers|aggregateRating|review)"\s*:/));
     const faq = jsonld.find(item => item['@type'] === 'FAQPage');
     assert.deepEqual(faq.mainEntity.map(item => ({ question: item.name, answer: item.acceptedAnswer.text })), hubFaqs);

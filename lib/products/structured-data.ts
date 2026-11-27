@@ -12,18 +12,12 @@ export function productItemLists(products: TherapyProduct[], origin: string) {
       itemListOrder: 'https://schema.org/ItemListUnordered', numberOfItems: group.length,
       itemListElement: group.map((product, index) => ({
         '@type': 'ListItem', position: index + 1,
-        item: {
-          '@type': product.identityStatus === 'documented' ? 'Product' : 'Thing',
-          '@id': `${origin}/red-light-therapy#product-${product.id}`,
-          name: `${product.brand} ${product.productName}`,
-          category: category.title,
-          url: `${origin}/red-light-therapy#product-${product.id}`,
-          ...(product.identityStatus === 'documented' ? { brand: { '@type': 'Brand', name: product.brand } } : {}),
-          ...(product.productImage ? { image: new URL(product.productImage.src, origin).href } : {}),
-          description: product.keyFeatures.join('; '),
-          // No Offer or AggregateRating: supplied screenshots are not current offers,
-          // and no independently checked rating dataset is available.
-        },
+        name: `${product.brand} ${product.productName}`,
+        url: `${origin}/red-light-therapy#product-${product.id}`,
+        ...(product.productImage ? { image: new URL(product.productImage.src, origin).href } : {}),
+        description: product.keyFeatures.join('; '),
+        // This multi-product discovery page describes a list, not Product rich results.
+        // Supplied references do not establish current offers, reviews or ratings.
       })),
     }];
   });
