@@ -35,6 +35,13 @@ export type TherapyProduct = {
   lastPriceChecked: string | null;
   asin: string | null;
   identityStatus: 'documented' | 'needs-confirmation';
+  recommendation?: {
+    priceTier: PriceTier;
+    label: string;
+    rationale: string;
+    comparison: string;
+    comparisonUrl: string;
+  };
   reviewUrl: string | null;
   sourceUrls: string[];
   sourceNotes?: string;

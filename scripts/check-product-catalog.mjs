@@ -51,7 +51,19 @@ for (const product of therapyProducts) {
     if (url.startsWith('/')) assert.ok(fs.existsSync(`content${url}.mdx`), `${product.id}: broken source ${url}`);
     else assert.equal(new URL(url).hostname, 'www.amazon.com');
   }
+  if (product.recommendation) {
+    assert.equal(product.recommendation.priceTier, getProductPriceTier(product), 'Recommendation must match the derived price tier');
+    assert.ok(fs.existsSync(`content${product.recommendation.comparisonUrl}.mdx`), 'Recommendation comparison must exist');
+  }
 }
+const reglow = therapyProducts.find(product => product.asin === 'B0DT14FRPG');
+assert.equal(reglow.productName, 'ReGlow LED Face Mask');
+assert.equal(reglow.category, 'face');
+assert.equal(reglow.referencePrice, 219);
+assert.equal(getProductPriceTier(reglow), 'mid-range');
+assert.equal(reglow.recommendation.label, 'Best Mid-Range LED Face Mask');
+assert.equal(reglow.fdaStatus, null, 'Do not publish unverified exact-model FDA clearance');
+assert.equal(reglow.affiliateUrl, 'https://pboost.me/U6Iqwz7T');
 assert.equal(therapyProducts.filter(product => product.category === 'full-body').length, 2);
 assert.equal(treatmentCategories.length, 3, 'Keep three primary LED treatment categories');
 assert.equal(therapyProducts.filter(product => product.category === 'related-heat').length, 1);

@@ -23,6 +23,7 @@ function PriceInformation({ product }: { product: TherapyProduct }) {
 }
 
 function ProductCard({ product }: { product: TherapyProduct }) {
+  const recommendation = product.recommendation?.priceTier === getProductPriceTier(product) ? product.recommendation : undefined;
   return <article className={styles.productCard} id={`product-${product.id}`} data-product-id={product.id}>
     {product.productImage ? <figure className={styles.productFigure}>
       <Image src={product.productImage.src} alt={product.productImage.alt} width={product.productImage.width} height={product.productImage.height} sizes="(max-width: 700px) 88vw, (max-width: 1100px) 44vw, 520px"/>
@@ -30,13 +31,16 @@ function ProductCard({ product }: { product: TherapyProduct }) {
     </figure> : <div className={styles.noImage}>Product image not established</div>}
     <div className={styles.productBody}>
       <span className="eyebrow">{product.brand} · {product.category === 'face' ? 'FACE DEVICE' : product.category === 'face-neck' ? 'FACE & NECK' : product.category === 'related-heat' ? 'THERMAL PAD · NOT LED' : 'BODY-AREA DEVICE'}</span>
+      {recommendation && <span className={styles.recommendationLabel}>{recommendation.label}</span>}
       <h4>{product.productName}</h4>
       {product.asin && <p className={styles.model}>ASIN {product.asin}</p>}
       {product.identityStatus === 'needs-confirmation' && <p className={styles.caution}>Model name and appearance need confirmation. Match the ASIN.</p>}
       <PriceInformation product={product}/>
+      {recommendation && <p className={styles.recommendationReason}>{recommendation.rationale}</p>}
       <ul className={styles.features}>{product.keyFeatures.map(feature => <li key={feature}>{feature}</li>)}</ul>
       <p className={styles.fit}><strong>Consider for: </strong>{product.suitableFor.join('; ')}.</p>
       <p className={styles.limitation}><strong>Before deciding: </strong>{product.limitations[0]}</p>
+      {recommendation && <div className={styles.productComparison}><strong>ReGlow vs ReGlow Lite</strong><p>{recommendation.comparison}</p><Link href={recommendation.comparisonUrl}>Compare the Ulike models <ArrowRight size={14}/></Link></div>}
       <details className={styles.sourceDetails}>
         <summary>Specifications, sources & limitations</summary>
         <dl>
