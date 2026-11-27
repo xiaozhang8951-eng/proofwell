@@ -15,7 +15,7 @@ import { siteUrl } from '@/lib/site';
 const title = 'Best Red Light Therapy Devices: Compare Masks & Panels';
 const description = 'Find your red light therapy shortlist by budget, treatment area, brand and features. Compare LED face masks and face-and-neck systems with clearly attributed prices and evidence limits.';
 export const metadata: Metadata = {
-  ...pageMetadata({ title, description, path: '/red-light-therapy', origin: siteUrl, imagePath: '/images/products/red-light-therapy-device-types-v1.webp' }),
+  ...pageMetadata({ title, description, path: '/red-light-therapy', origin: siteUrl, imagePath: '/images/products/red-light-therapy-device-types-dome-v2.webp' }),
   robots: pageRobots(true),
 };
 
@@ -28,10 +28,9 @@ export default function RedLightTherapyHub() {
         <p>Compare LED face masks, face-and-neck systems and compact body-area domes. Start with the area you want to cover, the features you value and a budget that works for you. Related far-infrared heat pads are listed separately.</p>
         <div className={styles.heroActions}><a className="button primary" href="#device-catalog">Find a device <ArrowRight size={16}/></a><a className="text-link" href="#buying-guide">How to choose <ArrowRight size={14}/></a></div>
       </div>
-      <figure className={styles.heroVisual}><div className={styles.heroDevices}><Image src="/images/products/red-light-therapy-device-types-v1.webp" alt="Original category illustration showing a face mask, a face mask with a separate neck piece, and a full-height LED body panel. The panel is a concept, not a reviewed model." width={1536} height={1024} sizes="(max-width: 1000px) 88vw, 44vw" priority/></div><figcaption>Face · Face &amp; neck · Full-body panel concept. Original illustration; the panel is not a reviewed product.</figcaption></figure>
+      <figure className={styles.heroVisual}><div className={styles.heroDevices}><Image src="/images/products/red-light-therapy-device-types-dome-v2.webp" alt="Original illustration showing a face mask, a face mask with a separate neck piece, and a compact white LED dome for selected face or body areas." width={1536} height={1024} sizes="(max-width: 1000px) 88vw, 44vw" priority/></div><figcaption>Face · Face &amp; neck · Body-area LED dome. Original illustrations, not test photographs.</figcaption></figure>
     </header>
-    <aside className={styles.disclosure}><strong>Affiliate disclosure:</strong> ProofWell may earn a commission if you purchase through labeled affiliate links, at no additional cost to you. This guide uses supplied product records and existing desk-based reviews; we have not tested these devices. “Best” means a feature-based shortlist for your needs, not a clinical award. <Link href="/affiliate-disclosure">Read our disclosure.</Link></aside>
-    <div className={styles.method}><span><Layers3 size={15}/> Treatment areas kept separate</span><span><Check size={15}/> Unknowns clearly marked</span><span><BookOpen size={15}/> Sources before sales claims</span></div>
+
 
     <ProductDiscovery products={therapyProducts}>
 
@@ -74,6 +73,8 @@ export default function RedLightTherapyHub() {
         ['How ProofWell evaluates evidence', '/editorial-policy'],
       ].map(([label, href]) => <Link href={href} key={href}>{label}<ArrowRight size={16}/></Link>)}
     </div></section>
+    <aside className={styles.disclosure}><strong>Affiliate disclosure:</strong> ProofWell may earn a commission if you purchase through labeled affiliate links, at no additional cost to you. This guide uses supplied product records and existing desk-based reviews; we have not tested these devices. “Best” means a feature-based shortlist for your needs, not a clinical award. <Link href="/affiliate-disclosure">Read our disclosure.</Link></aside>
+    <div className={styles.method}><span><Layers3 size={15}/> Treatment areas kept separate</span><span><Check size={15}/> Unknowns clearly marked</span><span><BookOpen size={15}/> Sources before sales claims</span></div>
     <BreadcrumbSchema items={[{ name: 'Home', path: '/' }, { name: 'Red light therapy devices', path: '/red-light-therapy' }]}/>
     {productItemLists(therapyProducts, siteUrl).map(list => <JsonLd data={list} key={list['@id']}/>)}
     <JsonLd data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: hubFaqs.map(faq => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) }}/>
