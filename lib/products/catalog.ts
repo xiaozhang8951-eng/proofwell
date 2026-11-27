@@ -87,7 +87,7 @@ export const therapyProducts: TherapyProduct[] = [
   },
   {
     ...unknowns,
-    id: 'megelin-white-face-neck', brand: 'MEGELIN', productName: 'JML1 Face & Neck Mask · White', category: 'face-neck',
+    id: 'megelin-white-face-neck', brand: 'MEGELIN', productName: 'Face & Neck Mask · White', category: 'face-neck',
     asin: 'B0CPY3NKWB', identityStatus: 'documented',
     productImage: { src: '/images/products/megelin-white-face-neck-original.webp', alt: 'Original illustration of a white MEGELIN face mask and separate tapered neck piece with thin gold geometric linework.', width: 1254, height: 1254, note: 'Original illustration based on supplied references, not a product photograph.' },
     amazonUrl: 'https://www.amazon.com/dp/B0CPY3NKWB', affiliateUrl: 'https://pboost.me/c6JsnaNk',
