@@ -24,11 +24,11 @@ export default function RedLightTherapyHub() {
     <nav className={styles.breadcrumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">Red light therapy</span></nav>
     <header className={styles.hero}>
       <div><span className="eyebrow">THE PROOFWELL DEVICE GUIDE</span>
-        <h1>Best red light therapy devices.<br/><em>Find your fit.</em></h1>
-        <p>Compare LED face masks, face-and-neck systems and compact body-area domes. Start with the area you want to cover, the features you value and a budget that works for you. Related far-infrared heat pads are listed separately.</p>
+        <h1>Best red light therapy devices.</h1>
+        <p>Compare face masks, face &amp; neck systems and body-area devices by budget and features.</p>
         <div className={styles.heroActions}><a className="button primary" href="#device-catalog">Find a device <ArrowRight size={16}/></a><a className="text-link" href="#buying-guide">How to choose <ArrowRight size={14}/></a></div>
       </div>
-      <figure className={styles.heroVisual}><div className={styles.heroDevices}><Image src="/images/products/red-light-therapy-device-types-dome-v2.webp" alt="Original illustration showing a face mask, a face mask with a separate neck piece, and a compact white LED dome for selected face or body areas." width={1536} height={1024} sizes="(max-width: 1000px) 88vw, 44vw" priority/></div><figcaption>Face · Face &amp; neck · Body-area LED dome. Original illustrations, not test photographs.</figcaption></figure>
+      <figure className={styles.heroVisual}><div className={styles.heroDevices}><Image src="/images/products/red-light-therapy-device-types-dome-v2.webp" alt="Original illustration showing a face mask, a face mask with a separate neck piece, and a compact white LED dome for selected face or body areas." width={1536} height={1024} sizes="(max-width: 1000px) 88vw, 44vw" loading="lazy"/></div><figcaption>Face · Face &amp; neck · Body-area LED dome. Original illustrations, not test photographs.</figcaption></figure>
     </header>
 
 

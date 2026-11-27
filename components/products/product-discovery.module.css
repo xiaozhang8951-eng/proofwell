@@ -30,6 +30,7 @@
 .categoryDetail { margin-top: 12px; }
 .categoryCount { color: var(--muted); font-size: 10px; margin-top: auto; padding-top: 24px; }
 .categoryCard > a { margin-top: 15px; }
+.categoryMobileLabel { display: none; }
 .budgetCard { text-align: left; position: relative; background: transparent; border: 1px solid var(--line); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; transition: background .15s, border-color .15s; }
 .budgetCard:hover, .budgetCard[aria-pressed='true'] { border-color: var(--accent); background: #e8ece3; }
 .budgetCard > span { text-transform: uppercase; font-size: 10px; letter-spacing: 1.3px; color: var(--muted); }
@@ -136,11 +137,13 @@
 }
 @media (max-width: 700px) {
   .hub { padding: 0 6% 48px; }
-  .hero { padding-bottom: 30px; }
-  .hero h1 { font-size: 35px; letter-spacing: -1.1px; }
+  .breadcrumbs { padding: 12px 0; }
+  .hero { display: block; padding: 10px 0 20px; }
+  .hero > div > :global(.eyebrow), .heroVisual { display: none; }
+  .hero h1 { font-size: 30px; letter-spacing: -.8px; margin: 0 0 12px; }
   .hero p { font-size: 14px; }
   .heroDevices { border-radius: 48px 48px 12px 12px; }
-  .heroActions { gap: 18px; }
+  .heroActions { gap: 18px; margin-top: 16px; }
   .heroActions > a { min-height: 44px; }
   .disclosure { padding: 17px; }
   .method { gap: 12px; font-size: 10px; }
@@ -148,11 +151,21 @@
   .sectionHeading { gap: 14px; margin-bottom: 22px; }
   .sectionHeading h2 { font-size: 28px; }
   .categoryGrid, .budgetGrid, .productGrid, .twoGrid, .readingGrid { grid-template-columns: 1fr; }
-  .categoryCard { padding: 24px; }
-  .categoryNumber { margin-bottom: 18px; }
-  .categoryCount { padding-top: 18px; }
-  .budgetCard { min-height: 130px; gap: 9px; }
-  .budgetCard strong { font-size: 28px; }
+  .introSection { margin-top: 20px; }
+  .introSection > .sectionHeading { grid-template-columns: 1fr; gap: 0; margin-bottom: 10px; }
+  .introSection > .sectionHeading :global(.eyebrow), .introSection > .sectionHeading > p { display: none; }
+  .introSection > .sectionHeading h2 { margin-top: 0; font-size: 20px; }
+  .categoryGrid, .budgetGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .categoryCard { padding: 0; align-items: stretch; }
+  .categoryCard > h3, .categoryCard > p, .categoryCard > span, .categoryDesktopLabel { display: none; }
+  .categoryMobileLabel { display: inline; }
+  .categoryCard > a { margin: 0; padding: 8px 6px; min-height: 52px; display: flex; justify-content: center; text-align: center; font-size: 12px; line-height: 1.5; }
+  .categoryCard > a svg { display: none; }
+  .budgetCard { padding: 10px 8px; min-height: 64px; gap: 4px; }
+  .budgetCard > span { font-size: 9px; letter-spacing: .5px; }
+  .budgetCard strong { font-family: var(--sans); font-size: 12px; font-weight: 600; }
+  .budgetCard small, .budgetCard svg { display: none; }
+  .introSection > .budgetNote { margin-top: 8px; font-size: 10px; }
   .filterBar { padding: 17px; }
   .filterToggle { display: flex; align-items: center; gap: 8px; border: 0; background: transparent; min-height: 44px; width: 100%; padding: 0; font-size: 14px; }
   .filterToggle > span { margin-left: auto; font-size: 20px; }
@@ -161,8 +174,10 @@
   .filterPanel select { font-size: 16px; min-height: 48px; }
   .resultsBar { margin-top: 10px; padding-top: 12px; gap: 10px; }
   .resultsBar p { font-size: 11px; }
-  .groupHeading { gap: 8px; }
-  .groupHeading h3 { font-size: 26px; }
+  .productGroup { margin-top: 24px; }
+  .groupHeading { gap: 8px; padding-bottom: 10px; margin-bottom: 12px; }
+  .groupHeading h3 { font-size: 22px; }
+  .groupHeading > span { display: none; }
   .productBody { padding: 22px; }
   .productBody h4 { font-size: 27px; }
   .productFigure figcaption { min-height: 0; }

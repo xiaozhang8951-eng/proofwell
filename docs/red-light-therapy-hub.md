@@ -84,6 +84,8 @@ Adding a catalog record automatically updates product counts, available brand/mo
 
 The page and initial catalog are static HTML, including source details and readable content without JavaScript. Client-side filters generate no new URLs, indexable parameter pages or backend requests. The hub has its own canonical/metadata, breadcrumbs, separate unordered ItemLists and FAQPage markup matching the visible FAQ text.
 
+On phones, the introduction is shortened, the decorative hero image is hidden and lazily loaded, and the area/budget cards become compact, touch-friendly rows. The detailed filters remain expandable. Ulike ReGlow (B0DT14FRPG) leads the default catalog; explicit price sorting and treatment-area filtering still take priority. The Ulike comparison link follows the face product cards so it does not delay the first product.
+
 The multi-product hub uses ordinary ItemLists with ListItem names, card-anchor URLs, images and source-attributed feature descriptions. It emits no Product nodes: Google product snippets require an offer, review or aggregate rating, and the available sources do not support current offers or verified ratings. Supplied reference prices are not promoted to Offers to satisfy a validator. This page does not claim product rich-result eligibility; its breadcrumbs and visible FAQ markup remain unchanged. Any future Product markup belongs on a suitable individual-product page with supported required fields.
 
 Only this page imports the discovery client component and CSS module. Existing fonts, global styles and Google installation remain unchanged. No new analytics or cookie storage is introduced.

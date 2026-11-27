@@ -20,7 +20,7 @@ const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 const rows = [];
 const ids = async expected => assert.deepEqual(await page.locator('[data-product-id]').evaluateAll(nodes => nodes.map(node => node.dataset.productId)), expected);
-const area = () => page.getByLabel('Treatment area', { exact: true });
+const area = () => page.getByRole('combobox', { name: 'Treatment area', exact: true });
 const budget = () => page.getByLabel('Budget · USD', { exact: true });
 const brand = () => page.getByLabel('Brand', { exact: true });
 const power = () => page.getByLabel('Power arrangement', { exact: true });
@@ -67,6 +67,7 @@ try {
     const breadcrumb = jsonld.find(item => item['@type'] === 'BreadcrumbList');
     assert.equal(breadcrumb.itemListElement.at(-1).item, canonical);
     await ids(therapyProducts.map(product => product.id));
+    await expect(page.locator('[data-product-id]').first()).toHaveAttribute('data-product-id', 'ulike-reglow-360');
     const reglow = page.locator('[data-product-id="ulike-reglow-360"]');
     await expect(page.getByText('Best Mid-Range LED Face Mask', { exact: true })).toHaveCount(1);
     await expect(reglow.getByRole('heading', { name: 'ReGlow LED Face Mask', exact: true })).toBeVisible();
@@ -98,6 +99,8 @@ try {
       if (product.amazonUrl) await expect(card.getByRole('link', { name: /^Exact Amazon listing/ })).toHaveAttribute('href', product.amazonUrl);
     }
     if (width <= 700) {
+      await expect(page.locator('header figure')).not.toBeVisible();
+      for (const link of await page.locator('section[aria-labelledby="treatment-areas"] a').all()) assert.ok((await link.boundingBox()).height >= 44, 'Area shortcuts remain easy to tap');
       const toggle = page.getByRole('button', { name: /^Filters/ });
       await expect(toggle).toHaveAttribute('aria-expanded', 'false');
       await expect(area()).not.toBeVisible(); await toggle.click();
@@ -110,7 +113,7 @@ try {
     await budget().selectOption('premium'); await ids(['ulike-lite-4-mode']);
     await expect(page.getByText('Best Mid-Range LED Face Mask', { exact: true })).toHaveCount(0);
     await budget().selectOption('all'); await brand().selectOption('Ulike'); await modes().selectOption('4');
-    await ids(['ulike-lite-4-mode', 'ulike-reglow-360']);
+    await ids(['ulike-reglow-360', 'ulike-lite-4-mode']);
     await power().selectOption('wired'); await ids(['ulike-reglow-360']);
     await reset(); await power().selectOption('wireless'); await ids(['ulike-lite-3-mode']);
     await power().selectOption('unknown'); await ids(['ulike-lite-4-mode', 'amiro-5-in-1', 'megelin-white-face-neck', 'megelin-black-face-neck', 'aurphany-face-neck', 'megelin-8-in-1-dome', 'swirise-7-in-1-dome']);
@@ -128,7 +131,7 @@ try {
     await reset();
     await page.getByRole('button', { name: /^Budget Under \$150/ }).click(); await ids(['ulike-lite-3-mode', 'aurphany-face-neck', 'megelin-8-in-1-dome', 'utk-jade-far-infrared-pad']);
     await page.getByRole('button', { name: /^Budget Under \$150/ }).click(); await ids(therapyProducts.map(product => product.id));
-    await page.getByRole('link', { name: 'Explore this format', exact: true }).nth(1).click(); await ids(['megelin-white-face-neck', 'megelin-black-face-neck', 'aurphany-face-neck']);
+    await page.locator('section[aria-labelledby="treatment-areas"]').getByRole('link').nth(1).click(); await ids(['megelin-white-face-neck', 'megelin-black-face-neck', 'aurphany-face-neck']);
     await reset();
     const tables = page.getByRole('region', { name: /specification comparison/ }); await expect(tables).toHaveCount(4);
     for (const table of await tables.all()) {

@@ -7,7 +7,7 @@ import { defaultFilters, filterProducts, formatPowerArrangement, getDiscoveryPri
 for (const [price, expected] of [[0, 'budget'], [149.99, 'budget'], [150, 'mid-range'], [250, 'mid-range'], [250.01, 'premium'], [null, null], [-1, null], [NaN, null], [Infinity, null]]) {
   assert.equal(getPriceTier(price), expected, `Tier boundary: ${price}`);
 }
-const base = therapyProducts[0];
+const base = therapyProducts.find(product => product.id === 'ulike-lite-3-mode');
 const fixtures = [
   { ...base, id: 'budget', currentPrice: 149.99, category: 'face', wireless: true, treatmentModes: 3 },
   { ...base, id: 'lower-boundary', currentPrice: 150, category: 'face', wireless: false, treatmentModes: 4 },
@@ -57,6 +57,7 @@ for (const product of therapyProducts) {
   }
 }
 const reglow = therapyProducts.find(product => product.asin === 'B0DT14FRPG');
+assert.equal(therapyProducts[0].id, reglow.id, 'The featured ReGlow listing leads the default catalog');
 assert.equal(reglow.productName, 'ReGlow LED Face Mask');
 assert.equal(reglow.category, 'face');
 assert.equal(reglow.referencePrice, 219);

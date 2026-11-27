@@ -103,8 +103,8 @@ export function ProductDiscovery({ products, children }: { products: TherapyProd
   function pickArea(area: TreatmentArea) { setFilters({ ...defaultFilters, area }); }
 
   return <div className={styles.discovery}>
-    <section className={styles.section} aria-labelledby="treatment-areas">
-      <div className={styles.sectionHeading}><div><span className="eyebrow">01 / CHOOSE THE AREA</span><h2 id="treatment-areas">Different formats. Different decisions.</h2></div><p>A face mask and a full-body panel do different jobs. We keep their shortlists and comparisons separate.</p></div>
+    <section className={`${styles.section} ${styles.introSection}`} aria-labelledby="treatment-areas">
+      <div className={styles.sectionHeading}><div><span className="eyebrow">01 / CHOOSE THE AREA</span><h2 id="treatment-areas">Treatment area</h2></div><p>A face mask and a full-body panel do different jobs. We keep their shortlists and comparisons separate.</p></div>
       <div className={styles.categoryGrid}>
         {treatmentCategories.map((category, index) => {
           const count = products.filter(product => product.category === category.id).length;
@@ -112,22 +112,22 @@ export function ProductDiscovery({ products, children }: { products: TherapyProd
             <span className={styles.categoryNumber}>0{index + 1}</span>
             <h3>{category.title}</h3><p>{category.description}</p><p className={styles.categoryDetail}>{category.detail}</p>
             <span className={styles.categoryCount}>{count ? `${count} documented listings` : 'No documented products yet'}</span>
-            <a href="#device-catalog" onClick={() => pickArea(category.id)} className="text-link">{count ? 'Explore this format' : 'See catalog coverage'} <ArrowRight size={15}/></a>
+            <a href="#device-catalog" onClick={() => pickArea(category.id)} className="text-link"><span className={styles.categoryDesktopLabel}>{count ? 'Explore this format' : 'See catalog coverage'}</span><span className={styles.categoryMobileLabel}>{category.id === 'face' ? 'Face masks' : category.id === 'face-neck' ? 'Face & neck' : 'Body-area LED'}</span><ArrowRight size={15}/></a>
           </article>;
         })}
       </div>
     </section>
 
-    <section className={styles.section} aria-labelledby="shop-by-budget">
-      <div className={styles.sectionHeading}><div><span className="eyebrow">02 / FIND YOUR RANGE</span><h2 id="shop-by-budget">A budget is a starting point.</h2></div><p>Price does not establish effectiveness. These ranges use checked prices when available, otherwise disclosed reference prices.</p></div>
+    <section className={`${styles.section} ${styles.introSection}`} aria-labelledby="shop-by-budget">
+      <div className={styles.sectionHeading}><div><span className="eyebrow">02 / FIND YOUR RANGE</span><h2 id="shop-by-budget">Budget</h2></div><p>Price does not establish effectiveness. These ranges use checked prices when available, otherwise disclosed reference prices.</p></div>
       <div className={styles.budgetGrid}>{priceTiers.map(tier => <button key={tier.id} type="button" className={styles.budgetCard} aria-pressed={filters.budget === tier.id} onClick={() => update('budget', filters.budget === tier.id ? 'all' : tier.id)}>
         <span>{tier.id === 'budget' ? 'Budget' : tier.id === 'mid-range' ? 'Mid-range' : 'Premium'}</span><strong>{tier.label}</strong><small>{tier.description}</small><ArrowRight size={18}/>
       </button>)}</div>
-      <p className={styles.budgetNote}>Unknown prices remain unclassified. A screenshot offer is never presented as a live quote.</p>
+      <p className={styles.budgetNote}>USD reference prices, not live quotes. Check seller pricing.</p>
     </section>
 
-    <section className={styles.section} aria-labelledby="device-catalog" id="catalog-section">
-      <div className={styles.sectionHeading}><div><span className="eyebrow">03 / THE PRODUCT FINDER</span><h2 id="device-catalog">Build your shortlist.</h2></div><p>Filter features first, then read the evidence and practical limitations. These are feature-based options, not clinical rankings.</p></div>
+    <section className={`${styles.section} ${styles.introSection}`} aria-labelledby="device-catalog" id="catalog-section">
+      <div className={styles.sectionHeading}><div><span className="eyebrow">03 / THE PRODUCT FINDER</span><h2 id="device-catalog">Compare devices</h2></div><p>Filter features first, then read the evidence and practical limitations. These are feature-based options, not clinical rankings.</p></div>
       <div className={styles.filterBar}>
         <button type="button" className={styles.filterToggle} aria-expanded={filtersOpen} aria-controls="product-filters" onClick={() => setFiltersOpen(!filtersOpen)}><SlidersHorizontal size={17}/> Filters{activeCount > 0 ? ` (${activeCount})` : ''}<span>{filtersOpen ? '−' : '+'}</span></button>
         <div className={styles.filterPanel} id="product-filters" data-expanded={filtersOpen}>
@@ -147,10 +147,10 @@ export function ProductDiscovery({ products, children }: { products: TherapyProd
         <button type="button" className="button" onClick={() => setFilters(defaultFilters)}>Show all documented listings <ArrowRight size={15}/></button>
       </div> : groups.map(group => <section className={styles.productGroup} key={group.id} aria-labelledby={`group-${group.id}`}>
         <div className={styles.groupHeading}><h3 id={`group-${group.id}`}>{group.title}</h3><span>{group.products.length} {group.products.length === 1 ? 'listing' : 'listings'} · compared within this group</span></div>
-        {group.id === 'face' && <p className={styles.groupLink}>Comparing Ulike models? <Link href="/comparisons/ulike-led-mask-comparison">Read the ReGlow vs ReGlow Lite buying guide <ArrowRight size={13}/></Link></p>}
         {group.id === 'full-body' && <p className={styles.groupLink}>These compact domes are shown over selected face or body areas. Their records do not establish simultaneous whole-body coverage.</p>}
         {group.id === 'related-heat' && <p className={styles.groupLink}>Far-infrared heat pads are thermal devices, not red/near-infrared LED devices. They are listed separately and are not ranked against LED products.</p>}
         <div className={styles.productGrid}>{group.products.map(product => <ProductCard product={product} key={product.id}/>)}</div>
+        {group.id === 'face' && <p className={styles.groupLink}>Comparing Ulike models? <Link href="/comparisons/ulike-led-mask-comparison">Read the ReGlow vs ReGlow Lite buying guide <ArrowRight size={13}/></Link></p>}
       </section>)}
     </section>
 
