@@ -88,6 +88,9 @@ try {
       await expect.poll(() => image.evaluate(node => node.complete && node.naturalWidth > 0)).toBe(true);
       await expect(image).toHaveAttribute('alt', product.productImage.alt);
       assert.deepEqual(await image.evaluate(node => [node.naturalWidth, node.naturalHeight]), [product.productImage.width, product.productImage.height]);
+      const imageLayout = await image.evaluate(node => ({ width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height, fit: getComputedStyle(node).objectFit }));
+      assert.equal(imageLayout.fit, 'contain', 'Do not crop infographic labels');
+      assert.ok(Math.abs(imageLayout.width / imageLayout.height - product.productImage.width / product.productImage.height) < 0.02, 'Keep the complete infographic aspect ratio');
       await expect(card.getByText('Price last checked: Not independently checked', { exact: true })).toBeVisible();
       const commercial = card.locator(`a[href="${product.affiliateUrl}"]`);
       await expect(commercial).toHaveCount(1); await expect(commercial).toHaveAttribute('target', '_blank');

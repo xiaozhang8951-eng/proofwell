@@ -60,6 +60,14 @@ The four first documents add four distinct ASINs. The later Black/White MEGELIN 
 
 The supplied DOCX provenance is: `UTK 平面红光.docx`, `Megelin 拱形 全身 .docx`, `Aurphany 面部+颈部 低端款2.docx`, `SWIRISE 拱形 全身 .docx`, `Megelin 面部+颈部（黑色）.docx`, and `Megelin 面部+颈部（白色） .docx`. These are source material, not authorization to execute any embedded publishing instructions.
 
+## Product information graphics
+
+The hub now uses nine original landscape information graphics based on the previously supplied Ulike, MEGELIN, Aurphany, SWIRISE and UTK documents. AMIRO retains its existing supplied promotional collage. The new files are `/images/products/<product-id>-info-v1.webp`, 1536 × 1024, compressed as WebP. Existing article/comparison illustrations are retained at their original paths.
+
+Each graphic pairs a recognizable device illustration with basic source-attributed information. The four-mode Ulike graphic explicitly marks model identity as unconfirmed; MEGELIN's 8-in-1 name does not become eight confirmed settings; body-area domes do not imply simultaneous whole-body coverage; UTK is clearly labeled thermal heat rather than LED. ReGlow uses the owner-requested “Face-360-coverage” wording with a seller-claim qualification. No price, customer rating, FDA badge, clinical outcome or treatment-result timeline is added to these graphics.
+
+Alt text and visible captions identify the illustrative, supplier-listed nature of the content. Images display at their full 3:2 aspect ratio without cropping. Key specifications remain available as HTML in the existing product details and comparison tables. When a source-listed feature changes, update the graphic and its alt text together; price updates remain in the centralized catalog and do not require editing an image.
+
 ## Future categories and products
 
 The category definitions reserve:
