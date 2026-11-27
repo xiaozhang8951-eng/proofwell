@@ -76,8 +76,8 @@ try {
       await expect(toggle).toHaveAttribute('aria-expanded', 'true'); await expect(area()).toBeVisible();
     } else await expect(area()).toBeVisible();
     await budget().selectOption('budget'); await ids(['ulike-lite-3-mode', 'aurphany-face-neck', 'megelin-8-in-1-dome', 'utk-jade-far-infrared-pad']);
-    await budget().selectOption('mid-range'); await ids(['ulike-reglow-360', 'megelin-white-face-neck', 'megelin-black-face-neck', 'swirise-7-in-1-dome']);
-    await budget().selectOption('premium'); await ids([]); await expect(page.getByText('No listings match this combination.', { exact: true })).toBeVisible();
+    await budget().selectOption('mid-range'); await ids(['ulike-reglow-360', 'amiro-5-in-1', 'megelin-white-face-neck', 'megelin-black-face-neck', 'swirise-7-in-1-dome']);
+    await budget().selectOption('premium'); await ids(['ulike-lite-4-mode']);
     await budget().selectOption('all'); await brand().selectOption('Ulike'); await modes().selectOption('4');
     await ids(['ulike-lite-4-mode', 'ulike-reglow-360']);
     await power().selectOption('wired'); await ids(['ulike-reglow-360']);
@@ -85,8 +85,8 @@ try {
     await power().selectOption('unknown'); await ids(['ulike-lite-4-mode', 'amiro-5-in-1', 'megelin-white-face-neck', 'megelin-black-face-neck', 'aurphany-face-neck', 'megelin-8-in-1-dome', 'swirise-7-in-1-dome']);
     await reset(); await area().selectOption('face-neck'); await brand().selectOption('Ulike'); await ids([]);
     await expect(page.getByText('No listings match this combination.', { exact: true })).toBeVisible();
-    await reset(); await sort().selectOption('price-asc'); await ids(['ulike-lite-3-mode', 'ulike-reglow-360', 'ulike-lite-4-mode', 'amiro-5-in-1', 'aurphany-face-neck', 'megelin-white-face-neck', 'megelin-black-face-neck', 'megelin-8-in-1-dome', 'swirise-7-in-1-dome', 'utk-jade-far-infrared-pad']);
-    await sort().selectOption('price-desc'); await ids(['ulike-reglow-360', 'ulike-lite-3-mode', 'ulike-lite-4-mode', 'amiro-5-in-1', 'megelin-black-face-neck', 'megelin-white-face-neck', 'aurphany-face-neck', 'swirise-7-in-1-dome', 'megelin-8-in-1-dome', 'utk-jade-far-infrared-pad']);
+    await reset(); await sort().selectOption('price-asc'); await ids(['ulike-lite-3-mode', 'amiro-5-in-1', 'ulike-reglow-360', 'ulike-lite-4-mode', 'aurphany-face-neck', 'megelin-white-face-neck', 'megelin-black-face-neck', 'megelin-8-in-1-dome', 'swirise-7-in-1-dome', 'utk-jade-far-infrared-pad']);
+    await sort().selectOption('price-desc'); await ids(['ulike-lite-4-mode', 'ulike-reglow-360', 'amiro-5-in-1', 'ulike-lite-3-mode', 'megelin-black-face-neck', 'megelin-white-face-neck', 'aurphany-face-neck', 'swirise-7-in-1-dome', 'megelin-8-in-1-dome', 'utk-jade-far-infrared-pad']);
     await reset(); await area().selectOption('full-body'); await ids(['megelin-8-in-1-dome', 'swirise-7-in-1-dome']);
     await expect(page.getByText('These compact domes are shown over selected face or body areas. Their records do not establish simultaneous whole-body coverage.', { exact: true })).toBeVisible();
     await expect(page.getByRole('table')).toHaveCount(1);

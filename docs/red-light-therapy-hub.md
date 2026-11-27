@@ -31,9 +31,9 @@ To record a new current quote, verify the exact ASIN/model, market, currency, se
 | Record | Category | Supplied price basis | Source |
 | --- | --- | --- | --- |
 | Ulike three-mode Lite, B0FWBRSD19 | Face | $64.99; $149 comparison reference | Existing Ulike comparison |
-| Ulike four-mode listing, B0FH6SLD7R | Face | Unknown; retail identity/appearance need confirmation | Existing Ulike comparison |
+| Ulike four-mode listing, B0FH6SLD7R | Face | $349 owner-supplied screenshot reference; list price unknown | Later owner screenshot associated with this card; exact-ASIN identity remains unresolved |
 | Ulike ReGlow, B0DT14FRPG | Face | $219; $399 comparison reference | Existing comparison and ReGlow review |
-| AMIRO 5-in-1 | Face | Unknown | Existing AMIRO review |
+| AMIRO 5-in-1 | Face | $197.99; $208.47 list-price reference | Later owner-supplied AMIRO screenshot; existing review uses an earlier source bundle |
 | MEGELIN White, B0CPY3NKWB | Face & neck | $249.00; $362.70 list reference | Newly supplied White DOCX and screenshots; existing review keeps its older reference |
 | MEGELIN Black, B0CPXZ33M8 | Face & neck | $249.99; $362.70 list reference | Newly supplied Black DOCX and screenshot; conditional credit-card offer excluded |
 | Aurphany, B0FRSHQZKL | Face & neck | $110.49; $129.99 typical-price reference | Supplied Aurphany DOCX and screenshot |
@@ -41,7 +41,7 @@ To record a new current quote, verify the exact ASIN/model, market, currency, se
 | SWIRISE dome, B0DL651HX5 | Body-area LED | $168.63; $219.00 list reference | Supplied SWIRISE DOCX and screenshot |
 | UTK jade pad, B073Z72FFY | Related heat, not LED | $123.07; $144.79 list reference | Supplied UTK DOCX and screenshot |
 
-The Ulike records are separate ASINs; ReGlow is not duplicated as another UM10 product. The four-mode Lite receives no other model's price or FDA status. All customer ratings, review counts and FDA statuses are unknown. AMIRO wavelength categories are recorded with null nm values. The newly supplied MEGELIN Black/White graphics label seven wavelengths; the catalog records these as supplier graphic labels, not independent measurements. Their 486 total is explicitly the sum of seller-listed 288 face and 198 neck counts. Aurphany's 324 total is likewise the documented 216 face + 108 neck count; its graphic mixes wavelength ranges, so individual peaks remain unassigned.
+The Ulike records are separate ASINs; ReGlow is not duplicated as another UM10 product. The owner later associated a US$349 screenshot with the four-mode catalog entry. Its cropped percentage does not establish an original price, and its ReGlow title does not resolve the exact-ASIN identity. No FDA status is inferred. All customer ratings, review counts and FDA statuses are unknown. AMIRO wavelength categories are recorded with null nm values. The newly supplied MEGELIN Black/White graphics label seven wavelengths; the catalog records these as supplier graphic labels, not independent measurements. Their 486 total is explicitly the sum of seller-listed 288 face and 198 neck counts. Aurphany's 324 total is likewise the documented 216 face + 108 neck count; its graphic mixes wavelength ranges, so individual peaks remain unassigned.
 
 Wireless means a cable-free device; the display distinguishes masks with controller cables from wired non-mask devices. It is separate from a rechargeable battery; an unknown arrangement never matches a wired or wireless filter. Product pictures retain their original/editorial/promotional provenance captions.
 
@@ -116,3 +116,7 @@ External seller/affiliate redirects require a permitted external connection. Loc
 | Release workflow | Commit/push/deployment requires explicit owner authorization |
 
 The workspace already contained unrelated uncommitted community work. It was preserved; only the catch-all route-registration lines in its existing article template were adjusted for the dedicated hub route. Review this hub's scoped changes separately when preparing any future commit.
+
+## Later price screenshots
+
+The four-mode Ulike card now uses the owner-supplied US$349.00 screenshot as a reference. Its screenshot title differs from the earlier Lite label; the existing identity caveat remains. No US$399 original price or 13% discount is inferred from the cropped image. AMIRO now uses US$197.99 against the visible US$208.47 reference (approximately 5% difference). Both price-check and capture dates remain unknown. No historical ratings or review counts are adopted as current. The original articles remain unchanged. Budget tiers and per-area sorting derive from these updated catalog references. The dome hero and end-of-page editorial notes from the preceding commit are preserved.

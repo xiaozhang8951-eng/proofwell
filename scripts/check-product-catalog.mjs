@@ -56,10 +56,15 @@ assert.equal(therapyProducts.filter(product => product.category === 'full-body')
 assert.equal(treatmentCategories.length, 3, 'Keep three primary LED treatment categories');
 assert.equal(therapyProducts.filter(product => product.category === 'related-heat').length, 1);
 assert.ok(treatmentCategories.every(category => category.published === false), 'Future category pages need a separate editorial publication decision');
-assert.equal(therapyProducts.find(product => product.asin === 'B0FH6SLD7R').referencePrice, null, 'Do not import another ASIN’s price');
+assert.equal(therapyProducts.find(product => product.asin === 'B0FH6SLD7R').referencePrice, 349, 'Use the owner-supplied reference for this catalog entry');
+assert.equal(therapyProducts.find(product => product.asin === 'B0FH6SLD7R').originalPrice, null, 'Do not infer a list price from a cropped percentage label');
+assert.equal(getDiscountPercentage(therapyProducts.find(product => product.asin === 'B0FH6SLD7R')), null);
+assert.equal(getDiscountPercentage(therapyProducts.find(product => product.id === 'amiro-5-in-1')), 5);
 assert.deepEqual(filterProducts(therapyProducts, { ...defaultFilters, budget: 'budget' }).map(product => product.id), ['ulike-lite-3-mode', 'aurphany-face-neck', 'megelin-8-in-1-dome', 'utk-jade-far-infrared-pad']);
-assert.deepEqual(filterProducts(therapyProducts, { ...defaultFilters, budget: 'mid-range' }).map(product => product.id), ['ulike-reglow-360', 'megelin-white-face-neck', 'megelin-black-face-neck', 'swirise-7-in-1-dome']);
-assert.equal(filterProducts(therapyProducts, { ...defaultFilters, budget: 'premium' }).length, 0);
+assert.deepEqual(filterProducts(therapyProducts, { ...defaultFilters, budget: 'mid-range' }).map(product => product.id), ['ulike-reglow-360', 'amiro-5-in-1', 'megelin-white-face-neck', 'megelin-black-face-neck', 'swirise-7-in-1-dome']);
+assert.deepEqual(filterProducts(therapyProducts, { ...defaultFilters, budget: 'premium' }).map(product => product.id), ['ulike-lite-4-mode']);
+assert.equal(therapyProducts.find(product => product.id === 'amiro-5-in-1').referencePrice, 197.99);
+assert.equal(therapyProducts.find(product => product.id === 'amiro-5-in-1').originalPrice, 208.47);
 const expectedUpdates = [
   ['B0FRSHQZKL', 'https://pboost.me/R6X3gRaN6', 110.49, 129.99, 15],
   ['B0CQJVJVZW', 'https://pboost.me/c6ZPnduE', 129, 179, 28],
