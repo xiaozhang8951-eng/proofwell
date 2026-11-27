@@ -8,11 +8,8 @@
 .hero p { font-size: 15px; max-width: 590px; }
 .heroActions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 26px; }
 .heroVisual { margin: 0; min-width: 0; }
-.heroDevices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; padding: 48px 12px 32px; min-height: 330px; background: radial-gradient(ellipse at 50% 90%, #e8c8b530, transparent 70%), #eeede7; border-radius: 140px 140px 16px 16px; }
-.heroDevices img { display: block; width: 130%; height: auto; max-height: 280px; object-fit: contain; position: relative; margin-left: -15%; }
-.heroDevices img:nth-child(1) { transform: rotate(-10deg); z-index: 1; }
-.heroDevices img:nth-child(2) { transform: translateY(-25px); z-index: 2; }
-.heroDevices img:nth-child(3) { transform: rotate(10deg); z-index: 3; }
+.heroDevices { display: block; overflow: hidden; background: #eeede7; border-radius: 72px 72px 16px 16px; }
+.heroDevices img { display: block; width: 100%; height: auto; object-fit: contain; }
 .heroVisual figcaption { color: var(--muted); font-size: 10px; line-height: 1.7; margin-top: 14px; }
 .disclosure { background: var(--panel); border-left: 3px solid var(--accent); padding: 18px 22px; margin: 26px 0; font-size: 12px; line-height: 1.8; color: var(--muted); }
 .disclosure a { text-decoration: underline; text-underline-offset: 3px; }
@@ -124,7 +121,6 @@
   .hero { grid-template-columns: 1fr; gap: 28px; padding-top: 24px; }
   .hero h1 { max-width: 720px; font-size: 44px; }
   .heroVisual { max-width: 610px; margin: 0 auto; width: 100%; }
-  .heroDevices { min-height: 300px; }
   .sectionHeading { grid-template-columns: 1fr; gap: 16px; }
   .sectionHeading p { max-width: 690px; }
   .categoryCard { padding: 21px; }
@@ -136,8 +132,7 @@
   .hero { padding-bottom: 30px; }
   .hero h1 { font-size: 35px; letter-spacing: -1.1px; }
   .hero p { font-size: 14px; }
-  .heroDevices { min-height: 220px; padding: 35px 10px 22px; border-radius: 85px 85px 12px 12px; }
-  .heroDevices img:nth-child(2) { transform: translateY(-12px); }
+  .heroDevices { border-radius: 48px 48px 12px 12px; }
   .heroActions { gap: 18px; }
   .heroActions > a { min-height: 44px; }
   .disclosure { padding: 17px; }

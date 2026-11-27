@@ -15,12 +15,11 @@ import { siteUrl } from '@/lib/site';
 const title = 'Best Red Light Therapy Devices: Compare Masks & Panels';
 const description = 'Find your red light therapy shortlist by budget, treatment area, brand and features. Compare LED face masks and face-and-neck systems with clearly attributed prices and evidence limits.';
 export const metadata: Metadata = {
-  ...pageMetadata({ title, description, path: '/red-light-therapy', origin: siteUrl, imagePath: '/images/comparisons/ulike-reglow-lite-mask-designs-v2.webp' }),
+  ...pageMetadata({ title, description, path: '/red-light-therapy', origin: siteUrl, imagePath: '/images/products/red-light-therapy-device-types-v1.webp' }),
   robots: pageRobots(true),
 };
 
 export default function RedLightTherapyHub() {
-  const heroProducts = ['ulike-lite-3-mode', 'ulike-lite-4-mode', 'ulike-reglow-360'].map(id => therapyProducts.find(product => product.id === id)!);
   return <div className={styles.hub}>
     <nav className={styles.breadcrumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">Red light therapy</span></nav>
     <header className={styles.hero}>
@@ -29,7 +28,7 @@ export default function RedLightTherapyHub() {
         <p>Compare LED face masks, face-and-neck systems and compact body-area domes. Start with the area you want to cover, the features you value and a budget that works for you. Related far-infrared heat pads are listed separately.</p>
         <div className={styles.heroActions}><a className="button primary" href="#device-catalog">Find a device <ArrowRight size={16}/></a><a className="text-link" href="#buying-guide">How to choose <ArrowRight size={14}/></a></div>
       </div>
-      <figure className={styles.heroVisual}><div className={styles.heroDevices}>{heroProducts.map(product => <Image key={product.id} src={product.productImage!.src} alt={product.productImage!.alt} width={1254} height={1254} sizes="(max-width: 700px) 38vw, 240px" priority/>)}</div><figcaption>Original mask illustrations, not test photographs. The four-mode Lite listing’s exact appearance needs confirmation.</figcaption></figure>
+      <figure className={styles.heroVisual}><div className={styles.heroDevices}><Image src="/images/products/red-light-therapy-device-types-v1.webp" alt="Original category illustration showing a face mask, a face mask with a separate neck piece, and a full-height LED body panel. The panel is a concept, not a reviewed model." width={1536} height={1024} sizes="(max-width: 1000px) 88vw, 44vw" priority/></div><figcaption>Face · Face &amp; neck · Full-body panel concept. Original illustration; the panel is not a reviewed product.</figcaption></figure>
     </header>
     <aside className={styles.disclosure}><strong>Affiliate disclosure:</strong> ProofWell may earn a commission if you purchase through labeled affiliate links, at no additional cost to you. This guide uses supplied product records and existing desk-based reviews; we have not tested these devices. “Best” means a feature-based shortlist for your needs, not a clinical award. <Link href="/affiliate-disclosure">Read our disclosure.</Link></aside>
     <div className={styles.method}><span><Layers3 size={15}/> Treatment areas kept separate</span><span><Check size={15}/> Unknowns clearly marked</span><span><BookOpen size={15}/> Sources before sales claims</span></div>
